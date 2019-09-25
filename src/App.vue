@@ -6,7 +6,7 @@
       <router-link to="/event-finder">EventF |</router-link>
       <router-link to="/private">Private</router-link>
     </div>
-    <router-view :testvar="testvar" />
+    <router-view :logged="logged" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      testvar: "ciao"
+      logged: true //SET TO FALSE AT THE END
     };
   }
 };
@@ -39,5 +39,10 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+/* REMOVE AT THE END */
+.to-fix {
+  color: red;
 }
 </style>

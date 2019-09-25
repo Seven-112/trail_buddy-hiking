@@ -3,14 +3,16 @@
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
     <div>
       <h1>Trail Buddy</h1>
-      <p>testvar is: {{testvar}}</p>
     </div>
     <div>
       <router-link to="/trail-finder" tag="button">
         <h2>Find a trail</h2>
       </router-link>
-      <router-link to="/login" tag="button">
+      <router-link to="/login" tag="button" v-if="logged===false">
         <h2>Login / Register</h2>
+      </router-link>
+      <router-link to="/private" tag="button" v-else>
+        <h2>Private Area</h2>
       </router-link>
     </div>
   </div>
@@ -25,8 +27,15 @@ export default {
     return {
       pageID: "home",
       pageTitle: "Homepage"
-      //logged: "false"
     };
+  },
+  props: {
+    logged: {
+      type: Boolean
+    }
   }
 };
 </script>
+
+<style>
+</style>
