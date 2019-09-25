@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
+    <div>
+      <h1>Trail Buddy</h1>
+      <p>testvar is: {{testvar}}</p>
+    </div>
+    <div>
+      <router-link to="/trail-finder" tag="button">
+        <h2>Find a trail</h2>
+      </router-link>
+      <router-link to="/login" tag="button">
+        <h2>Login / Register</h2>
+      </router-link>
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
+<script>
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  name: "home",
+  components: {},
+  data() {
+    return {
+      pageID: "home",
+      pageTitle: "Homepage"
+      //logged: "false"
+    };
   }
-}
+};
 </script>

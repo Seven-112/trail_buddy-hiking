@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from './views/home.vue'
+import TrailFinder from './views/trail_finder.vue'
+import TrailInfo from './views/trail_info.vue'
+import EventFinder from './views/event_finder.vue'
+import EventInfo from './views/event_info.vue'
+import Private from './views/private.vue'
+import Login from './views/login.vue'
 
 Vue.use(Router)
 
@@ -14,12 +20,28 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/trail-finder',
+      component: TrailFinder,
+    },
+    {
+      path: '/trail-info',
+      component: TrailInfo
+    },
+    {
+      path: '/event-finder',
+      component: EventFinder
+    },
+    {
+      path: '/event-info',
+      component: EventInfo
+    },
+    {
+      path: '/private',
+      component: Private
+    },
+    {
+      path: '/login',
+      component: Login
     }
   ]
 })
