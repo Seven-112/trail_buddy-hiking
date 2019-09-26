@@ -22,6 +22,8 @@
         </div>
       </div>
     </div>
+    <!--<button v-on:click="testStoreShow">Showing here...</button>
+    <p>{{testVar.name}}</p>-->
   </div>
 </template>
 
@@ -37,6 +39,7 @@ export default {
     return {
       pageID: "private",
       pageTitle: "My own page"
+      //testVar: "" //DELETE ME
     };
   },
 
@@ -44,6 +47,13 @@ export default {
     logged: {
       type: Boolean
     }
+  },
+
+  methods: {
+    /*testStoreShow() {
+      //DELETE ME
+      this.testVar = JSON.parse(localStorage.testStoreVar);
+    }*/
   }
 };
 </script>

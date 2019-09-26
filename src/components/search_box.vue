@@ -81,6 +81,12 @@ export default {
       inputDateStart: "",
       inputDateEnd: ""
     };
+  },
+
+  created() {
+    if (localStorage.storedResult) {
+      this.inputTrail = JSON.parse(localStorage.storedResult)["name"];
+    }
   }
 };
 </script>

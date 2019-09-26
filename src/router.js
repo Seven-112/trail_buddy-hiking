@@ -20,19 +20,20 @@ export default new Router({
       component: Home
     },
     {
-      path: '/trail-finder',
+      path: '/trail_finder',
       component: TrailFinder,
     },
     {
-      path: '/trail-info',
-      component: TrailInfo
+      path: '/:finder/trail_info/:itemID',
+      component: TrailInfo,
+      props: true
     },
     {
-      path: '/event-finder',
+      path: '/event_finder',
       component: EventFinder
     },
     {
-      path: '/event-info',
+      path: '/event_info',
       component: EventInfo
     },
     {

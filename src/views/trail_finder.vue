@@ -7,7 +7,7 @@
         <form action="#">
           Maximum distance:
           <input type="range" name="max-dist" min="20" max="200" v-model="maxDist" />
-          {{milesToKm}} km
+          {{milesToKm(maxDist)}} km
           <input type="submit" value="Find trails" />
         </form>
       </div>
@@ -112,9 +112,9 @@ export default {
     }
   },
 
-  computed: {
-    milesToKm() {
-      return (this.maxDist * 1.60934).toFixed(1);
+  methods: {
+    milesToKm(val) {
+      return (val * 1.60934).toFixed(1);
     }
   }
 };

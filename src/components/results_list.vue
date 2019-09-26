@@ -1,10 +1,14 @@
 <template>
   <div>
     <div v-for="(singleResult, index) in resultsList" :key="index">
-      <router-link to="/trail-info">
-        <ResultTile :singleResult="singleResult" :pageID="pageID" />
+      <router-link :to="'/' + pageID + '/trail_info/' + singleResult.id">
+        <div v-on:click="storeSingleResult(singleResult)">
+          <ResultTile :singleResult="singleResult" :pageID="pageID" />
+        </div>
       </router-link>
     </div>
+    <!--<button v-on:click="showInfo">Show the name of stored item</button>
+    <p>{{testDisplay}}</p>-->
   </div>
 </template>
 
@@ -15,6 +19,11 @@ export default {
   components: {
     ResultTile
   },
+  data() {
+    return {
+      testDisplay: ""
+    };
+  },
   props: {
     resultsList: {
       type: Array
@@ -22,6 +31,15 @@ export default {
     pageID: {
       type: String
     }
+  },
+  methods: {
+    storeSingleResult(oneResult) {
+      localStorage.storedResult = JSON.stringify(oneResult);
+      //this.testDisplay = "orso";
+    }
+    /*showInfo() {
+      this.testDisplay = JSON.parse(localStorage.storedResult);
+    }*/
   }
 };
 </script>
