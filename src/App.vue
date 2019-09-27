@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!--<div id="nav">
       <router-link to="/">Home |</router-link>
       <router-link to="/trail_finder">TrailF |</router-link>
       <router-link to="/event_finder">EventF |</router-link>
       <router-link to="/private">Private</router-link>
-    </div>
+    </div>-->
     <router-view :logged="logged" />
   </div>
 </template>
@@ -44,5 +44,10 @@ export default {
 /* REMOVE AT THE END */
 .to-fix {
   color: red;
+}
+
+.hoverable:hover {
+  cursor: pointer;
+  color: darkslategrey;
 }
 </style>

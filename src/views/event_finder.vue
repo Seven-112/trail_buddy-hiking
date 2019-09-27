@@ -4,7 +4,7 @@
       <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
     </div>
     <div>
-      <SearchBox />
+      <SearchBox v-on:inputChanged="updateInput($event)" />
     </div>
     <div>
       <span>Can't find an event like this?</span>
@@ -17,7 +17,7 @@
       <br />
       <strong class="to-fix">(here go the results)</strong>
       <br />
-      <ResultsList :resultsList="eventList" :pageID="pageID" />
+      <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
     </div>
   </div>
 </template>
@@ -39,8 +39,26 @@ export default {
     return {
       pageID: "event_finder",
       pageTitle: "Find/Create an Event",
+      searchParams: {
+        inputTrail: "",
+        inputStatus: "status-any",
+        inputDateType: "date-type-any",
+        inputDateStart: "",
+        inputDateEnd: ""
+      },
       eventList: [
         {
+          eventID: 12345,
+          status: "status-decided",
+          dateRangeType: "date-type-set",
+          startDate: "2019-10-10",
+          endDate: "",
+          participantsList: [
+            { memberID: 3333 },
+            { memberID: 1111 },
+            { memberID: 6666 }
+          ],
+          //here start normal trail data
           id: 7003941,
           name: "Pilatus Mountain/Pilatus Kulm",
           type: "Featured Hike",
@@ -72,6 +90,13 @@ export default {
           conditionDate: "2019-06-27 02:26:05"
         },
         {
+          eventID: 23456,
+          status: "status-proposed",
+          dateRangeType: "date-type-any",
+          startDate: "",
+          endDate: "",
+          participantsList: [{ memberID: 2222 }],
+          //here start normal trail data
           id: 7051324,
           name: "Seceda - Odles",
           type: "Featured Hike",
@@ -99,19 +124,81 @@ export default {
           conditionStatus: "Unknown",
           conditionDetails: null,
           conditionDate: "1970-01-01 00:00:00"
+        },
+        {
+          eventID: 34567,
+          status: "status-proposed",
+          dateRangeType: "date-type-range",
+          startDate: "2019-12-25",
+          endDate: "2020-01-05",
+          participantsList: [
+            { memberID: 3333 },
+            { memberID: 2222 },
+            { memberID: 7777 },
+            { memberID: 8888 }
+          ],
+          //here start normal trail data
+          id: 1234567,
+          name: "Mount Doom",
+          type: "Featured Hike",
+          summary:
+            "Perfect to give your beloved the One Ring and push him/her down",
+          difficulty: "black",
+          stars: 4.9,
+          starVotes: 8,
+          location: "Mordor, Middle Earth",
+          url:
+            "https://www.hikingproject.com/trail/7003941/pilatus-mountainpilatus-kulm",
+          imgSqSmall:
+            "https://cdn-files.apstatic.com/hike/7003188_sqsmall_1554233241.jpg",
+          imgSmall:
+            "https://cdn-files.apstatic.com/hike/7003188_small_1554233241.jpg",
+          imgSmallMed:
+            "https://cdn-files.apstatic.com/hike/7003188_smallMed_1554233241.jpg",
+          imgMedium:
+            "https://cdn-files.apstatic.com/hike/7003188_medium_1554233241.jpg",
+          length: 554.6,
+          ascent: 6666,
+          descent: 0,
+          high: 6667,
+          low: 0,
+          longitude: 18.277,
+          latitude: 48.9553,
+          conditionStatus: "Dangerous",
+          conditionDetails: "Nazgul infestation currently ongoing. Take care",
+          conditionDate: "2019-09-27 12:22:05"
         }
       ]
-      /*inputTrail: "",
-      inputStatus: "status-any",
-      inputDateType: "date-type-any",
-      inputDateStart: "",
-      inputDateEnd: ""*/
     };
   },
 
   props: {
     logged: {
       type: Boolean
+    }
+  },
+
+  methods: {
+    updateInput(receivedInput) {
+      /*console.log("up here we received:");
+      console.log(receivedInput.inputTrail);
+      console.log(receivedInput.inputStatus);
+      console.log(receivedInput.inputDateType);
+      console.log(receivedInput.inputDateStart);
+      console.log(receivedInput.inputDateEnd);*/
+
+      this.searchParams.inputTrail = receivedInput.inputTrail;
+      this.searchParams.inputStatus = receivedInput.inputStatus;
+      this.searchParams.inputDateType = receivedInput.inputDateType;
+      this.searchParams.inputDateStart = receivedInput.inputDateStart;
+      this.searchParams.inputDateEnd = receivedInput.inputDateEnd;
+
+      console.log("now searchParams up here is:");
+      console.log(this.searchParams.inputTrail);
+      console.log(this.searchParams.inputStatus);
+      console.log(this.searchParams.inputDateType);
+      console.log(this.searchParams.inputDateStart);
+      console.log(this.searchParams.inputDateEnd);
     }
   }
 };

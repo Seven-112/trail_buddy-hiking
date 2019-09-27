@@ -24,17 +24,18 @@ export default new Router({
       component: TrailFinder,
     },
     {
-      path: '/:finder/trail_info/:itemID',
+      path: '/trail_finder/:detail/:itemID',
       component: TrailInfo,
       props: true
     },
     {
       path: '/event_finder',
-      component: EventFinder
+      component: EventFinder,
     },
     {
-      path: '/event_info',
-      component: EventInfo
+      path: '/event_finder/:detail/:itemID',
+      component: EventInfo,
+      props: true
     },
     {
       path: '/private',

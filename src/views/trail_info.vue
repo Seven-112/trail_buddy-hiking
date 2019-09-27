@@ -37,10 +37,7 @@
         </button>
       </router-link>
     </div>
-    <!--<br />
-    <button v-on:click="showInfo">Show the name of stored item</button>
-    <p>Name:{{testDisplay.name}}</p>
-    <p>Back page: {{$route.params.finder}}</p>-->
+
   </div>
 </template>
 
@@ -61,7 +58,6 @@ export default {
       pageID: "trail_info",
       pageTitle: "Trail Information",
       displayedItem: {}
-      //testDisplay: "" //DELETE ME
     };
   },
 

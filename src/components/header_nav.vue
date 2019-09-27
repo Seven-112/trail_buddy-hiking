@@ -1,18 +1,21 @@
 <template>
   <div>
-    <!--<router-link to="/trail_finder" v-if="pageID === 'trail_info'">Back</router-link>
-    <router-link to="/event_finder" v-if="pageID === 'event_info'">Back</router-link>-->
-    <router-link v-if="$route.params.finder" :to="'/' + $route.params.finder">Back</router-link>
-    <!--<p v-if="pageID !== ('trail_info' || 'event_info')" class="to-fix">(no back btn!)</p>-->
-
+    <!--<router-link v-if="$route.params.detail" :to="'/' + $route.params.detail + '_finder'">Back</router-link>-->
+    <button v-if="$route.params.detail" v-on:click="goBack">Back</button>
     <h1>{{pageTitle}}</h1>
 
     <div>
-      <router-link to="/" v-if="pageID !== 'home'" tag="button">Home</router-link>
-      <router-link to="/trail_finder" v-if="pageID !== 'trail_finder'" tag="button">Trail Finder</router-link>
-      <router-link to="/event_finder" v-if="pageID !== 'event_finder'" tag="button">Event finder</router-link>
-      <router-link to="/private" v-if="pageID !== 'private' && logged ===true" tag="button">Private</router-link>
-      <router-link to="/login" v-if="pageID !== 'private' && logged ===false" tag="button">Log in</router-link>
+      <button v-if="pageID !== 'home'" v-on:click="navigate('/')">Home</button>
+      <button v-if="pageID !== 'trail_finder'" v-on:click="navigate('/trail_finder')">Trail Finder</button>
+      <button v-if="pageID !== 'event_finder'" v-on:click="navigate('/event_finder')">Event Finder</button>
+      <button
+        v-if="pageID !== 'private' && logged ===true"
+        v-on:click="navigate('/private')"
+      >Private Area</button>
+      <button
+        v-if="pageID !== 'private' && logged ===false"
+        v-on:click="navigate('/login')"
+      >Alt. Login</button>
     </div>
   </div>
 </template>
@@ -33,6 +36,16 @@ export default {
   },
   data() {
     return {};
+  },
+
+  methods: {
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+    },
+    navigate(path) {
+      localStorage.storedResult = ""; //resets local storage
+      this.$router.push(path);
+    }
   }
 };
 </script>
