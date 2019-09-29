@@ -1,6 +1,7 @@
 <template>
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
+    <ResultTile :singleResult="displayedItem" :pageID="pageID" />
   </div>
 </template>
 
@@ -18,7 +19,7 @@ export default {
 
   data() {
     return {
-      pageID: "event_info",
+      pageID: "event_finder",
       pageTitle: "Event Information",
       displayedItem: {}
     };

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>ResultsList module, pageID = {{pageID}}</p>
     <div v-for="(singleResult, index) in filterResultsList" :key="index">
       <div v-on:click="goToDetail(singleResult)" class="hoverable">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
@@ -45,6 +46,9 @@ export default {
 
   computed: {
     filterResultsList() {
+      if (this.pageID === "trail_finder") {
+        return this.resultsList;
+      }
       return this.resultsList.filter(x => {
         let nameCond = x["name"]
           .toLowerCase()
@@ -69,10 +73,10 @@ export default {
             this.searchParams.inputDateType === "date-type-range" &&
             this.searchParams.inputDateEnd //does not run if user has not yet entered 2nd date
           ) {
-            enteredEndDate = new Date(this.searchParams.inputDateEnd); //for "range" ENTERED date
+            enteredEndDate = new Date(this.searchParams.inputDateEnd); //sets end date for "range" ENTERED date
           }
           if (x.dateRangeType === "date-type-range") {
-            eventEndDate = new Date(x.endDate); //for "range" EVENT date
+            eventEndDate = new Date(x.endDate); //sets end date for "range" EVENT date
           }
           let startingDateCond =
             eventStartDate <= enteredStartDate &&

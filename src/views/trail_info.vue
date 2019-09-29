@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
-    <ResultTile :singleResult="displayedItem" />
+    <ResultTile :singleResult="displayedItem" :pageID="pageID" />
     <div>
       <div>
         <p>{{displayedItem.summary}}</p>
@@ -37,7 +37,6 @@
         </button>
       </router-link>
     </div>
-
   </div>
 </template>
 
@@ -55,7 +54,7 @@ export default {
 
   data() {
     return {
-      pageID: "trail_info",
+      pageID: "trail_finder",
       pageTitle: "Trail Information",
       displayedItem: {}
     };

@@ -49,7 +49,7 @@ export default {
           status: "status-decided",
           dateRangeType: "date-type-set",
           startDate: "2019-10-10",
-          endDate: "",
+          endDate: "2019-10-10",
           participantsList: [
             { memberID: 3333 },
             { memberID: 1111 },

@@ -3,8 +3,7 @@
     <!--<router-link v-if="$route.params.detail" :to="'/' + $route.params.detail + '_finder'">Back</router-link>-->
     <button v-if="$route.params.detail" v-on:click="goBack">Back</button>
     <h1>{{pageTitle}}</h1>
-
-    <div>
+    <div v-if="!$route.params.detail">
       <button v-if="pageID !== 'home'" v-on:click="navigate('/')">Home</button>
       <button v-if="pageID !== 'trail_finder'" v-on:click="navigate('/trail_finder')">Trail Finder</button>
       <button v-if="pageID !== 'event_finder'" v-on:click="navigate('/event_finder')">Event Finder</button>
