@@ -14,9 +14,6 @@
       <h2>Events found</h2>
     </div>
     <div>
-      <br />
-      <strong class="to-fix">(here go the results)</strong>
-      <br />
       <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
     </div>
   </div>
@@ -129,7 +126,7 @@ export default {
           eventID: 34567,
           status: "status-proposed",
           dateRangeType: "date-type-range",
-          startDate: "2019-12-25",
+          startDate: "2019-09-25",
           endDate: "2020-01-05",
           participantsList: [
             { memberID: 3333 },
@@ -193,12 +190,12 @@ export default {
       this.searchParams.inputDateStart = receivedInput.inputDateStart;
       this.searchParams.inputDateEnd = receivedInput.inputDateEnd;
 
-      console.log("now searchParams up here is:");
+      /*console.log("now searchParams up here is:");
       console.log(this.searchParams.inputTrail);
       console.log(this.searchParams.inputStatus);
       console.log(this.searchParams.inputDateType);
       console.log(this.searchParams.inputDateStart);
-      console.log(this.searchParams.inputDateEnd);
+      console.log(this.searchParams.inputDateEnd);*/
     }
   }
 };

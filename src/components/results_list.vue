@@ -37,12 +37,7 @@ export default {
   },
 
   methods: {
-    /*storeSingleResult(oneResult) {
-      localStorage.storedResult = JSON.stringify(oneResult);
-    }*/
     goToDetail(oneResult) {
-      console.log("gotodetail called");
-      console.log("this.pageID= " + this.pageID);
       localStorage.storedResult = JSON.stringify(oneResult);
       this.$router.push("/" + this.pageID + "/detail/" + oneResult.id);
     }
@@ -50,18 +45,48 @@ export default {
 
   computed: {
     filterResultsList() {
-      return this.resultsList.filter(
-        x =>
-          x["name"].toLowerCase().includes(this.searchParams.inputTrail) &&
-          (x.status == this.searchParams.inputStatus ||
-            this.searchParams.inputStatus === "status-any")
-      );
+      return this.resultsList.filter(x => {
+        let nameCond = x["name"]
+          .toLowerCase()
+          .includes(this.searchParams.inputTrail.toLowerCase());
+        let statusCond =
+          x.status == this.searchParams.inputStatus ||
+          this.searchParams.inputStatus === "status-any";
 
-      //
-      /*return this.bookList.filter(
-        x =>
-          x.title.toLowerCase().includes(this.searchInput) ||
-          x.description.toLowerCase().includes(this.searchInput)*/
+        let dateCond = true; //covers all cases where either input or event date is "any"
+
+        //down here we set conditions for all other date type cases
+        if (
+          this.searchParams.inputDateType !== "date-type-any" &&
+          x.dateRangeType !== "date-type-any" &&
+          this.searchParams.inputDateStart //does not run if user has not yet entered 1st date
+        ) {
+          let enteredStartDate = new Date(this.searchParams.inputDateStart);
+          let eventStartDate = new Date(x.startDate);
+          let enteredEndDate = new Date(this.searchParams.inputDateStart); //avoids undefined values  for "set" ENTERED date
+          let eventEndDate = new Date(x.startDate); //avoids undefined values  for "set" EVENT date
+          if (
+            this.searchParams.inputDateType === "date-type-range" &&
+            this.searchParams.inputDateEnd //does not run if user has not yet entered 2nd date
+          ) {
+            enteredEndDate = new Date(this.searchParams.inputDateEnd); //for "range" ENTERED date
+          }
+          if (x.dateRangeType === "date-type-range") {
+            eventEndDate = new Date(x.endDate); //for "range" EVENT date
+          }
+          let startingDateCond =
+            eventStartDate <= enteredStartDate &&
+            enteredStartDate <= eventEndDate;
+          let endingDateCond =
+            eventStartDate <= enteredEndDate &&
+            enteredStartDate <= eventEndDate;
+          dateCond = startingDateCond || endingDateCond;
+          //condition is valid for both "set" and "range" types on both ENTERED and EVENT dates;
+          // does not matter if enteredStartDate > enteredEndDate, algorithm works the same
+        }
+
+        return nameCond && statusCond && dateCond;
+      });
     }
   }
 };

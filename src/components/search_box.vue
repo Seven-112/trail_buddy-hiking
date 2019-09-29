@@ -58,7 +58,7 @@
       </div>
       <div v-if="searchParams.inputDateType !== 'date-type-any'">
         <label for="search-date-start">
-          <span v-if="searchParams.inputDateType==='date-type-range'">Start Date:</span>
+          <span v-if="searchParams.inputDateType==='date-type-range'">Between</span>
         </label>
         <input
           type="date"
@@ -68,7 +68,7 @@
           v-on:change="changeInput"
         />
         <label for="search-date-end">
-          <span v-if="searchParams.inputDateType==='date-type-range'">End Date:</span>
+          <span v-if="searchParams.inputDateType==='date-type-range'">and</span>
         </label>
         <input
           v-if="searchParams.inputDateType==='date-type-range'"
@@ -79,11 +79,11 @@
           v-on:change="changeInput"
         />
       </div>
-      <div>
+      <!--<div>
         <p>Entered dates</p>
         <p>Start date: {{inputDateStart}}</p>
         <p>End date: {{inputDateEnd}}</p>
-      </div>
+      </div>-->
     </form>
   </div>
 </template>
