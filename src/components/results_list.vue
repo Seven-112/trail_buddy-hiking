@@ -1,10 +1,12 @@
 <template>
   <div>
-    <p>ResultsList module, pageID = {{pageID}}</p>
     <div v-for="(singleResult, index) in filterResultsList" :key="index">
       <div v-on:click="goToDetail(singleResult)" class="hoverable">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
       </div>
+    </div>
+    <div v-if="filterResultsList.length === 0">
+      <h3>No trails found!</h3>
     </div>
   </div>
 </template>
@@ -14,7 +16,6 @@ import ResultTile from "@/components/result_tile.vue";
 
 export default {
   name: "ResultsList",
-
   components: {
     ResultTile
   },

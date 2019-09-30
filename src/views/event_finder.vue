@@ -57,8 +57,8 @@ export default {
           ],
           //here start normal trail data
           id: 7003941,
-          name: "Pilatus Mountain/Pilatus Kulm",
-          type: "Featured Hike",
+          name: "Pilatus Mountain/Pilatus Kulm"
+          /*type: "Featured Hike",
           summary:
             "A beatiful, solitary hike with a highly commercialized ending.",
           difficulty: "blueBlack",
@@ -84,7 +84,7 @@ export default {
           latitude: 46.9553,
           conditionStatus: "All Clear",
           conditionDetails: "",
-          conditionDate: "2019-06-27 02:26:05"
+          conditionDate: "2019-06-27 02:26:05"*/
         },
         {
           eventID: 23456,
@@ -95,8 +95,8 @@ export default {
           participantsList: [{ memberID: 2222 }],
           //here start normal trail data
           id: 7051324,
-          name: "Seceda - Odles",
-          type: "Featured Hike",
+          name: "Seceda - Odles"
+          /*type: "Featured Hike",
           summary: "A beautiful trail on Odle.",
           difficulty: "greenBlue",
           stars: 5,
@@ -120,7 +120,7 @@ export default {
           latitude: 46.5979,
           conditionStatus: "Unknown",
           conditionDetails: null,
-          conditionDate: "1970-01-01 00:00:00"
+          conditionDate: "1970-01-01 00:00:00"*/
         },
         {
           eventID: 34567,
@@ -136,8 +136,8 @@ export default {
           ],
           //here start normal trail data
           id: 1234567,
-          name: "Mount Doom",
-          type: "Featured Hike",
+          name: "Mount Doom"
+          /*type: "Featured Hike",
           summary:
             "Perfect to give your beloved the One Ring and push him/her down",
           difficulty: "black",
@@ -163,7 +163,7 @@ export default {
           latitude: 48.9553,
           conditionStatus: "Dangerous",
           conditionDetails: "Nazgul infestation currently ongoing. Take care",
-          conditionDate: "2019-09-27 12:22:05"
+          conditionDate: "2019-09-27 12:22:05"*/
         }
       ]
     };
@@ -177,25 +177,11 @@ export default {
 
   methods: {
     updateInput(receivedInput) {
-      /*console.log("up here we received:");
-      console.log(receivedInput.inputTrail);
-      console.log(receivedInput.inputStatus);
-      console.log(receivedInput.inputDateType);
-      console.log(receivedInput.inputDateStart);
-      console.log(receivedInput.inputDateEnd);*/
-
       this.searchParams.inputTrail = receivedInput.inputTrail;
       this.searchParams.inputStatus = receivedInput.inputStatus;
       this.searchParams.inputDateType = receivedInput.inputDateType;
       this.searchParams.inputDateStart = receivedInput.inputDateStart;
       this.searchParams.inputDateEnd = receivedInput.inputDateEnd;
-
-      /*console.log("now searchParams up here is:");
-      console.log(this.searchParams.inputTrail);
-      console.log(this.searchParams.inputStatus);
-      console.log(this.searchParams.inputDateType);
-      console.log(this.searchParams.inputDateStart);
-      console.log(this.searchParams.inputDateEnd);*/
     }
   }
 };

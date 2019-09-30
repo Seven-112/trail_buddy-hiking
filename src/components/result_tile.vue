@@ -3,7 +3,7 @@
     <div>
       <div>
         <h3>{{singleResult.name}}</h3>
-        <p class="to-fix" v-if="pageID==='trail_finder'">(optional: distance from spot)</p>
+        <!--<p class="to-fix" v-if="pageID==='trail_finder'">(optional: distance from spot)</p>-->
         <p v-if="pageID===('event_finder' || 'private')">{{displayEventDate}}</p>
       </div>
       <div>

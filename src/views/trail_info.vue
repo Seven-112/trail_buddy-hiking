@@ -28,7 +28,7 @@
       </div>
     </div>
     <div>
-      <a :href="displayedItem.url">More info on HikingProject.com</a>
+      <a :href="displayedItem.url" target="_blank">More info on HikingProject.com</a>
     </div>
     <div>
       <router-link to="/event_finder">

@@ -4,24 +4,15 @@
     <div>
       <h2>Choose a spot and a max. distance</h2>
       <div>
-        <form action="#">
+        <span>
           Maximum distance:
           <input type="range" name="max-dist" min="20" max="200" v-model="maxDist" />
           {{milesToKm(maxDist)}} km
-          <input type="submit" value="Find trails" />
-        </form>
+          <button v-on:click="getTrails">Find Trails</button>
+        </span>
       </div>
     </div>
-    <div>
-      <br />
-      <strong class="to-fix">(here goes the map)</strong>
-      <br />
-    </div>
-    <!--<div>
-      <br />
-      <strong class="to-fix">(here go the results)</strong>
-      <br />
-    </div>-->
+    <div id="mapid"></div>
     <ResultsList :resultsList="trailList" :pageID="pageID" />
   </div>
 </template>
@@ -29,6 +20,7 @@
 <script>
 import HeaderNav from "@/components/header_nav.vue";
 import ResultsList from "@/components/results_list.vue";
+import axios from "axios";
 export default {
   name: "TrailFinder",
   components: {
@@ -41,6 +33,10 @@ export default {
       pageID: "trail_finder",
       pageTitle: "Find a Trail",
       maxDist: 20,
+      selectedSpot: {
+        lat: 0,
+        lon: 0
+      },
       trailList: [
         {
           id: 7003941,
@@ -115,10 +111,57 @@ export default {
   methods: {
     milesToKm(val) {
       return (val * 1.60934).toFixed(1);
+    },
+
+    getTrails() {
+      axios
+        .get("https://www.hikingproject.com/data/get-trails", {
+          params: {
+            key: "200595378-7fe084d4861bcc0f6116d5babbf74a73",
+            lat: this.selectedSpot.lat,
+            lon: this.selectedSpot.lon,
+            maxDistance: this.maxDist
+          }
+        })
+        .then(response => {
+          this.trailList = response.data.trails;
+          console.log(this.trailList);
+        })
+        .catch(function(error) {
+          alert("Error in retrieving data:" + error);
+        });
     }
+  },
+
+  mounted() {
+    var mymap = L.map("mapid").setView([41.3851, 2.1734], 10);
+    var marker;
+    L.tileLayer(
+      "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}",
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: "mapbox.streets",
+        accessToken:
+          "pk.eyJ1IjoicGludGVjMTAiLCJhIjoiY2sxNjdobDh6MHp5aDNvdGdubWYxdWwxOCJ9.JjH40Kq67-JXH8ySTIEtGw"
+      }
+    ).addTo(mymap);
+    mymap.on("click", event => {
+      console.log("map clicked at " + event.latlng);
+      if (marker) {
+        mymap.removeLayer(marker);
+      }
+      marker = L.marker(event.latlng).addTo(mymap);
+      this.selectedSpot.lon = event.latlng.lng;
+      this.selectedSpot.lat = event.latlng.lat;
+    });
   }
 };
 </script>
 
 <style>
+#mapid {
+  height: 300px;
+}
 </style>

@@ -79,11 +79,6 @@
           v-on:change="changeInput"
         />
       </div>
-      <!--<div>
-        <p>Entered dates</p>
-        <p>Start date: {{inputDateStart}}</p>
-        <p>End date: {{inputDateEnd}}</p>
-      </div>-->
     </form>
   </div>
 </template>
@@ -111,9 +106,13 @@ export default {
     }
   },
 
-  created() {
+  mounted() {
     if (localStorage.storedResult) {
-      this.inputTrail = JSON.parse(localStorage.storedResult)["name"];
+      console.log("in local storage: " + localStorage.storedResult);
+      this.searchParams.inputTrail = JSON.parse(localStorage.storedResult)[
+        "name"
+      ];
+      this.changeInput();
     }
   }
 };
