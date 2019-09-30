@@ -44,6 +44,7 @@
 <script>
 import HeaderNav from "@/components/header_nav.vue";
 import ResultTile from "@/components/result_tile.vue";
+import axios from "axios"; // TRYING AXIOS
 export default {
   name: "TrailInfo",
 
@@ -60,17 +61,40 @@ export default {
     };
   },
 
+  props: {
+    logged: {
+      type: Boolean
+    }
+  },
+
   methods: {
     milesToKm(val) {
       return (val * 1.60934).toFixed(1);
     },
     feetToM(val) {
       return (val * 0.3048).toFixed(0);
+    },
+    getSingleTrail() {
+      axios
+        .get("https://www.hikingproject.com/data/get-trails-by-id", {
+          params: {
+            key: "200595378-7fe084d4861bcc0f6116d5babbf74a73",
+            ids: this.$route.params.itemID
+          }
+        })
+        .then(response => {
+          this.displayedItem = response.data.trails[0];
+          console.log(this.displayedItem);
+        })
+        .catch(function(error) {
+          alert("Error in retrieving data:" + error);
+        });
     }
   },
 
   created() {
-    this.displayedItem = JSON.parse(localStorage.storedResult);
+    //this.displayedItem = JSON.parse(localStorage.storedResult); //REMOVE IF USING AXIOS
+    this.getSingleTrail();
   }
 };
 </script>

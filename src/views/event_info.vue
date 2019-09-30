@@ -4,7 +4,8 @@
     <ResultTile :singleResult="displayedItem" :pageID="pageID" />
     <div>
       <!--<router-link :to="'/trail_finder/detail/' + displayedItem.trailID ">More info on the trail</router-link>-->
-      <p v-on:click="goToTrailDetail">More info on the trail</p>
+      <!-- REMOVE INLINE STYLE!-->
+      <p class="link-text" v-on:click="goToTrailDetail(displayedItem)">More info on the trail</p>
     </div>
     <div>
       <h3>Who's coming</h3>
@@ -29,6 +30,7 @@
 <script>
 import HeaderNav from "@/components/header_nav.vue";
 import ResultTile from "@/components/result_tile.vue";
+import axios from "axios";
 
 export default {
   name: "EventInfo",
@@ -46,17 +48,47 @@ export default {
     };
   },
 
+  props: {
+    logged: {
+      type: Boolean
+    }
+  },
+
   methods: {
-    goToTrailDetail() {
-      //
+    goToTrailDetail(oneResult) {
+      localStorage.storedResult = JSON.stringify(oneResult);
+      this.$router.push("/trail_finder/detail/" + oneResult.id);
     }
   },
 
   created() {
-    this.displayedItem = JSON.parse(localStorage.storedResult);
+    this.displayedItem = JSON.parse(localStorage.storedResult); // REMOVE AFTER IMPLEMENTING FIREBASE/AXIOS FETCH
+    /*axios   //HERE GOES THE FETCH TO FIREBASE
+      .get("https://www.hikingproject.com/data/get-trails-by-id", {
+        params: {
+          key: "200595378-7fe084d4861bcc0f6116d5babbf74a73",
+          ids: localStorage.storedTrail
+        }
+      })
+      .then(response => {
+        this.displayedItem = response.data.trails[0];
+        console.log(this.displayedItem);
+      })
+      .catch(function(error) {
+        alert("Error in retrieving data:" + error);
+      });*/
   }
 };
 </script>
 
 <style>
+.link-text {
+  color: blue;
+  text-decoration: underline;
+}
+
+.link-text:hover {
+  color: rgb(0, 110, 255);
+  cursor: pointer;
+}
 </style>

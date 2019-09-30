@@ -6,7 +6,7 @@
       </div>
     </div>
     <div v-if="filterResultsList.length === 0">
-      <h3>No trails found!</h3>
+      <p>No results found!</p>
     </div>
   </div>
 </template>
@@ -40,8 +40,14 @@ export default {
 
   methods: {
     goToDetail(oneResult) {
-      localStorage.storedResult = JSON.stringify(oneResult);
-      this.$router.push("/" + this.pageID + "/detail/" + oneResult.id);
+      localStorage.storedResult = JSON.stringify(oneResult); //REMOVE WHEN AXIOS COMPLETE FOR EVENTS
+      //localStorage.storedTrail = oneResult.id;
+      if (oneResult.eventID) {
+        localStorage.storedEvent = oneResult.eventID;
+        this.$router.push("/" + this.pageID + "/detail/" + oneResult.eventId); //THIS WILL BE USED FOR EVENT FETCH
+      } else {
+        this.$router.push("/" + this.pageID + "/detail/" + oneResult.id);
+      }
     }
   },
 

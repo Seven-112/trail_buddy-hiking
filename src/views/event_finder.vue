@@ -57,8 +57,8 @@ export default {
           ],
           //here start normal trail data
           id: 7003941,
-          name: "Pilatus Mountain/Pilatus Kulm"
-          /*type: "Featured Hike",
+          name: "Pilatus Mountain/Pilatus Kulm",
+          type: "Featured Hike",
           summary:
             "A beatiful, solitary hike with a highly commercialized ending.",
           difficulty: "blueBlack",
@@ -84,7 +84,7 @@ export default {
           latitude: 46.9553,
           conditionStatus: "All Clear",
           conditionDetails: "",
-          conditionDate: "2019-06-27 02:26:05"*/
+          conditionDate: "2019-06-27 02:26:05"
         },
         {
           eventID: 23456,
