@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       pageID: "trail_finder",
-      pageTitle: "Trail Information",
+      pageTitle: "Trail Info",
       displayedItem: {}
     };
   },

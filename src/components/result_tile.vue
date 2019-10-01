@@ -1,20 +1,27 @@
 <template>
-  <div style="border: 1px solid black">
-    <div>
+  <v-card ripple class="pa-2 my-2">
+    <div class="d-flex justify-space-between">
       <div>
-        <h3>{{singleResult.name}}</h3>
-        <!--<p class="to-fix" v-if="pageID==='trail_finder'">(optional: distance from spot)</p>-->
-        <p v-if="pageID===('event_finder' || 'private')">{{displayEventDate}}</p>
+        <v-card-title class="subtitle-1 font-weight-bold pb-0">{{singleResult.name}}</v-card-title>
+        <v-card-text class="py-0" v-if="pageID===('event_finder' || 'private')">{{displayEventDate}}</v-card-text>
+        <v-card-text class="py-0" v-if="pageID===('trail_finder')">{{singleResult.location}}</v-card-text>
       </div>
-      <div>
-        <p>difficulty: {{singleResult.difficulty}}</p>
-        <p class="to-fix" v-if="pageID==='trail_finder'">nr. of events: XX</p>
-        <p
-          v-if="pageID===('event_finder' || 'private')"
-        >nr. of participants: {{displayParticipantsNumber}}</p>
+      <div class="d-flex flex-column flex-shrink-0 justify-end">
+        <div>
+          <v-icon>mdi-arm-flex</v-icon>
+          {{difficultyCalculator}}
+        </div>
+        <div v-if="pageID==='trail_finder'">
+          <v-icon>mdi-calendar-text</v-icon>
+          <span class="to-fix">XX</span>
+        </div>
+        <div v-if="pageID===('event_finder' || 'private')">
+          <v-icon>mdi-account-group</v-icon>
+          {{displayParticipantsNumber}}
+        </div>
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -43,10 +50,30 @@ export default {
 
     displayParticipantsNumber() {
       return this.singleResult.participantsList.length;
+    },
+
+    difficultyCalculator() {
+      switch (this.singleResult.difficulty) {
+        case "dblack":
+          return 5;
+        case "blueBlack":
+          return 4;
+        case "blue":
+          return 3;
+        case "greenBlue":
+          return 2;
+        case "green":
+          return 1;
+        default:
+          return "?";
+      }
     }
   }
 };
 </script>
 
 <style>
+.v-card__title {
+  word-break: normal !important;
+}
 </style>

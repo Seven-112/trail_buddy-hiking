@@ -3,19 +3,23 @@
     <div>
       <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
     </div>
-    <div>
-      <SearchBox v-on:inputChanged="updateInput($event)" />
-    </div>
-    <div>
-      <span>Can't find an event like this?</span>
-      <button class="to-fix">Create it</button>
-    </div>
-    <div>
-      <h2>Events found</h2>
-    </div>
-    <div>
-      <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
-    </div>
+    <v-content>
+      <div class="pa-3">
+        <div>
+          <SearchBox v-on:inputChanged="updateInput($event)" />
+        </div>
+        <div>
+          <span>Can't find an event like this?</span>
+          <button class="to-fix">Create it</button>
+        </div>
+        <div>
+          <h2>Events found</h2>
+        </div>
+        <div>
+          <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
+        </div>
+      </div>
+    </v-content>
   </div>
 </template>
 
@@ -35,7 +39,7 @@ export default {
   data() {
     return {
       pageID: "event_finder",
-      pageTitle: "Find/Create an Event",
+      pageTitle: "Find an Event",
       searchParams: {
         inputTrail: "",
         inputStatus: "status-any",

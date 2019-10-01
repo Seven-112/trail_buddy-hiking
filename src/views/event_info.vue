@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       pageID: "event_finder",
-      pageTitle: "Event Information",
+      pageTitle: "Event Info",
       displayedItem: {}
     };
   },

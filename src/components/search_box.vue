@@ -1,60 +1,63 @@
 <template>
   <div>
-    <form action="#">
+    <v-form>
       <div>
-        <label for="search-trail">Trail:</label>
-        <input
-          type="text"
+        <v-text-field
+          label="Trail name"
           name="search-trail"
           id="search-trail"
           placeholder="e.g. Great Lake Trail"
           v-model="searchParams.inputTrail"
           v-on:keyup="changeInput"
         />
-        <!--ADD v-on!!-->
-      </div>
-      <div>
-        <label for="search-status">Status:</label>
-        <select
+
+        <!--<label for="search-status">Status:</label>-->
+        <v-select
+          label="Status"
+          :items="statusOptions"
+          item-text="text"
+          item-value="value"
           name="search-status"
           id="search-status"
           v-model="searchParams.inputStatus"
           v-on:change="changeInput"
         >
-          <option value="status-any">Any</option>
+          <v-item value="status-any">Any</v-item>
           <option value="status-proposed">Proposed</option>
           <option value="status-decided">Decided</option>
-        </select>
+        </v-select>
       </div>
       <div>
-        <legend>Date(s):</legend>
-        <input
-          type="radio"
-          name="search-date-type"
-          value="date-type-set"
-          id="date-type-set"
-          v-model="searchParams.inputDateType"
-          v-on:change="changeInput"
-        />
-        <label for="date-type-set">Set date</label>
-        <input
-          type="radio"
-          name="search-date-type"
-          value="date-type-range"
-          id="date-type-range"
-          v-model="searchParams.inputDateType"
-          v-on:change="changeInput"
-        />
-        <label for="date-type-range">Range</label>
-        <input
-          type="radio"
-          name="search-date-type"
-          value="date-type-any"
-          id="date-type-any"
-          v-model="searchParams.inputDateType"
-          v-on:change="changeInput"
-        />
-        <label for="date-type-any">Any</label>
+        <p class="caption mb-0 grey--text text--darken-2">Select dates</p>
+        <v-radio-group class="mt-0" row v-model="searchParams.inputDateType">
+          <v-radio
+            color="light-green darken-3"
+            label="Set date"
+            type="radio"
+            name="search-date-type"
+            value="date-type-set"
+            id="date-type-set"
+            v-on:change="changeInput"
+          />
+          <v-radio
+            color="light-green darken-3"
+            label="Range"
+            type="radio"
+            name="search-date-type"
+            value="date-type-range"
+            id="date-type-range"
+            v-on:change="changeInput"
+          />
+          <v-radio
+            color="light-green darken-3"
+            label="Any"
+            type="radio"
+            name="search-date-type"
+            value="date-type-any"
+            id="date-type-any"
+            v-on:change="changeInput"
+          />
+        </v-radio-group>
       </div>
       <div v-if="searchParams.inputDateType !== 'date-type-any'">
         <label for="search-date-start">
@@ -79,7 +82,7 @@
           v-on:change="changeInput"
         />
       </div>
-    </form>
+    </v-form>
   </div>
 </template>
 
@@ -95,7 +98,21 @@ export default {
         inputDateType: "date-type-any",
         inputDateStart: "",
         inputDateEnd: ""
-      }
+      },
+      statusOptions: [
+        {
+          text: "Any",
+          value: "status-any"
+        },
+        {
+          text: "Proposed",
+          value: "status-proposed"
+        },
+        {
+          text: "Decided",
+          value: "status-decided"
+        }
+      ]
     };
   },
 

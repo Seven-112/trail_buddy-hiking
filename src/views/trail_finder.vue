@@ -1,19 +1,48 @@
 <template>
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
-    <div>
-      <h2>Choose a spot and a max. distance</h2>
-      <div>
-        <span>
-          Maximum distance:
-          <input type="range" name="max-dist" min="20" max="200" v-model="maxDist" />
-          {{milesToKm(maxDist)}} km
-          <button v-on:click="getTrails">Find Trails</button>
-        </span>
+    <v-content>
+      <div class="pa-3">
+        <div>
+          <h2
+            class="subtitle-2 font-weight-bold text-center my-2"
+          >Pin a spot on the map and choose a maximum distance, then push "Find Trails"</h2>
+          <div>
+            <div>
+              <p class="pa-0 ma-0 caption">Max distance:</p>
+              <v-form class="d-flex mt-0 pt-0">
+                <v-slider
+                  class="mt-0 pt-0"
+                  name="max-dist"
+                  min="5"
+                  max="200"
+                  v-model="maxDist"
+                  color="light-green darken-3"
+                  track-color="light-green lighten-3"
+                >
+                  <template v-slot:append>
+                    <p class="text-no-wrap body-2">{{milesToKm(maxDist)}} km</p>
+                  </template>
+                </v-slider>
+                <div>
+                  <v-btn
+                    dark
+                    class="ml-2"
+                    color="light-green darken-3"
+                    ripple
+                    rounded
+                    x-small
+                    v-on:click="getTrails"
+                  >Find Trails</v-btn>
+                </div>
+              </v-form>
+            </div>
+          </div>
+        </div>
+        <div id="mapid" class="mb-3"></div>
+        <ResultsList :resultsList="trailList" :pageID="pageID" />
       </div>
-    </div>
-    <div id="mapid"></div>
-    <ResultsList :resultsList="trailList" :pageID="pageID" />
+    </v-content>
   </div>
 </template>
 
@@ -32,13 +61,13 @@ export default {
     return {
       pageID: "trail_finder",
       pageTitle: "Find a Trail",
-      maxDist: 20,
+      maxDist: 5,
       selectedSpot: {
         lat: 0,
         lon: 0
       },
       trailList: [
-        /*{
+        {
           id: 7003941,
           name: "Pilatus Mountain/Pilatus Kulm",
           type: "Featured Hike",
@@ -97,7 +126,7 @@ export default {
           conditionStatus: "Unknown",
           conditionDetails: null,
           conditionDate: "1970-01-01 00:00:00"
-        }*/
+        }
       ]
     };
   },
@@ -163,5 +192,6 @@ export default {
 <style>
 #mapid {
   height: 300px;
+  z-index: 0;
 }
 </style>

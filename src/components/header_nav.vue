@@ -1,20 +1,47 @@
 <template>
-  <div>
-    <!--<router-link v-if="$route.params.detail" :to="'/' + $route.params.detail + '_finder'">Back</router-link>-->
+  <v-app-bar app fixed dark class="light-green darken-3">
     <button v-if="$route.params.detail" v-on:click="goBack">Back</button>
-    <h1>{{pageTitle}}</h1>
+    <h1 class="title">{{pageTitle}}</h1>
+    <div class="flex-grow-1"></div>
     <div>
       <!--v-if="!$route.params.detail"-->
-      <button v-if="pageID !== 'home'" v-on:click="navigate('/')">Home</button>
-      <button v-if="pageID !== 'trail_finder'" v-on:click="navigate('/trail_finder')">Trail Finder</button>
-      <button v-if="pageID !== 'event_finder'" v-on:click="navigate('/event_finder')">Event Finder</button>
-      <button
+      <v-btn class="flex-shrink-1" icon v-if="pageID !== 'home'" v-on:click="navigate('/')">
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <v-btn
+        class="flex-shrink-1"
+        icon
+        v-if="pageID !== 'trail_finder'"
+        v-on:click="navigate('/trail_finder')"
+      >
+        <v-icon>mdi-map</v-icon>
+      </v-btn>
+      <v-btn
+        class="flex-shrink-1"
+        icon
+        v-if="pageID !== 'event_finder'"
+        v-on:click="navigate('/event_finder')"
+      >
+        <v-icon>mdi-calendar-month</v-icon>
+      </v-btn>
+      <v-btn
+        class="flex-shrink-1"
+        icon
         v-if="pageID !== 'private' && logged === true"
         v-on:click="navigate('/private')"
-      >Private Area</button>
-      <button v-if="pageID !== 'private' && logged === false" v-on:click="navigate('/login')">Login</button>
+      >
+        <v-icon>mdi-account-circle</v-icon>
+      </v-btn>
+      <v-btn
+        class="flex-shrink-1"
+        icon
+        v-if="pageID !== 'private' && logged === false"
+        v-on:click="navigate('/login')"
+      >
+        <v-icon>mdi-account-arrow-left</v-icon>
+      </v-btn>
     </div>
-  </div>
+  </v-app-bar>
 </template>
 
 <script>
