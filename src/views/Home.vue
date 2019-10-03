@@ -1,29 +1,64 @@
 <template>
-  <div>
-    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
-    <div>
-      <h1>Trail Buddy</h1>
-    </div>
-    <div>
-      <router-link to="/trail_finder" tag="button">
-        <h2>Find a trail</h2>
-      </router-link>
-      <router-link to="/login" tag="button" v-if="logged===false">
-        <h2>Login / Register</h2>
-      </router-link>
-      <router-link to="/private" tag="button" v-else>
-        <h2>Private Area</h2>
-      </router-link>
-    </div>
-    <!--<button v-on:click="testStoreFn">Storing here!</button>
-    <button v-on:click="testStoreShow">Showing here...</button>
-    <p>{{testVar}}</p>
-    <br />
-    <router-link to="/private">
-      <button v-on:click="testStoreFnII">
-        <p>Private Area AND store</p>
-      </button>
-    </router-link>-->
+  <div class="home-container p-0">
+    <!--<HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />-->
+    <v-content>
+      <div class="upper-box d-flex justify-center align-end pb-12">
+        <div>
+          <h1 class="display-3 white--text">Trail Buddy</h1>
+        </div>
+      </div>
+      <div class="lower-box d-flex justify-space-around align-center">
+        <div class="d-flex flex-column align-center">
+          <v-btn
+            dark
+            fab
+            color="light-green darken-3"
+            x-large
+            v-if="pageID !== 'trail_finder'"
+            to="/trail_finder"
+          >
+            <v-icon x-large>mdi-map</v-icon>
+          </v-btn>
+          <h2 class="text-center white--text headline py-3">Find a trail</h2>
+        </div>
+
+        <div v-if="logged===false" class="d-flex flex-column align-center">
+          <v-btn
+            dark
+            fab
+            color="blue darken-2"
+            x-large
+            v-if="pageID !== 'trail_finder'"
+            to="/login"
+          >
+            <v-icon x-large>mdi-account-arrow-left</v-icon>
+          </v-btn>
+          <h2 class="text-center white--text headline py-3">Login</h2>
+        </div>
+        <div v-if="logged===true" class="d-flex flex-column align-center">
+          <v-btn
+            dark
+            fab
+            color="blue darken-2"
+            x-large
+            v-if="pageID !== 'trail_finder'"
+            to="/private"
+          >
+            <v-icon x-large>mdi-account</v-icon>
+          </v-btn>
+          <h2 class="text-center white--text headline py-3">Private Area</h2>
+        </div>
+
+        <!--<div>
+          <router-link to="/login" tag="button" v-if="logged===false">
+            <h2>Login</h2>
+          </router-link>
+          <router-link to="/private" tag="button" v-else>
+            <h2>Private Area</h2>
+          </router-link>
+        </div>-->
+      </div>
+    </v-content>
   </div>
 </template>
 
@@ -36,38 +71,6 @@ export default {
     return {
       pageID: "home",
       pageTitle: "Homepage"
-      /*testVar: "", //DELETE ME AND THE NEXT GUY
-      testTrailtosave: {
-        id: 7003941,
-        name: "Pilatus Mountain TEST!/Pilatus Kulm",
-        type: "Featured Hike",
-        summary:
-          "A beatiful, solitary hike with a highly commercialized ending.",
-        difficulty: "blueBlack",
-        stars: 4.9,
-        starVotes: 8,
-        location: "Alpnach, Switzerland",
-        url:
-          "https://www.hikingproject.com/trail/7003941/pilatus-mountainpilatus-kulm",
-        imgSqSmall:
-          "https://cdn-files.apstatic.com/hike/7003188_sqsmall_1554233241.jpg",
-        imgSmall:
-          "https://cdn-files.apstatic.com/hike/7003188_small_1554233241.jpg",
-        imgSmallMed:
-          "https://cdn-files.apstatic.com/hike/7003188_smallMed_1554233241.jpg",
-        imgMedium:
-          "https://cdn-files.apstatic.com/hike/7003188_medium_1554233241.jpg",
-        length: 4.6,
-        ascent: 5191,
-        descent: -16,
-        high: 6667,
-        low: 1488,
-        longitude: 8.277,
-        latitude: 46.9553,
-        conditionStatus: "All Clear",
-        conditionDetails: "",
-        conditionDate: "2019-06-27 02:26:05"
-      }*/
     };
   },
   props: {
@@ -75,22 +78,21 @@ export default {
       type: Boolean
     }
   },
-  methods: {
-    /*testStoreFn() {
-      //DELETE ME
-      localStorage.testStoreVar = "ciao";
-    },
-    testStoreFnII() {
-      //DELETE ME
-      localStorage.testStoreVar = JSON.stringify(this.testTrailtosave);
-    },
-    testStoreShow() {
-      //DELETE ME
-      this.testVar = localStorage.testStoreVar;
-    }*/
-  }
+  methods: {}
 };
 </script>
 
 <style>
+.home-container {
+  background-image: url("../assets/hiking_sm_02.jpg");
+  background-size: auto 100vh;
+  background-position: center;
+  height: 100vh;
+}
+.upper-box {
+  height: 55vh;
+}
+.lower-box {
+  height: 45vh;
+}
 </style>

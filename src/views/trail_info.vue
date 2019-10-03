@@ -1,42 +1,83 @@
 <template>
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
-    <ResultTile :singleResult="displayedItem" :pageID="pageID" />
-    <div>
-      <div>
-        <p>{{displayedItem.summary}}</p>
-        <p>Length: {{milesToKm(displayedItem["length"])}} km</p>
-        <p>Ascent: {{feetToM(displayedItem.ascent)}} m</p>
-        <p>Descent: {{-feetToM(displayedItem.descent)}} m</p>
-        <p>Highest point: {{feetToM(displayedItem.high)}} m</p>
-        <p>Lowest point: {{feetToM(displayedItem.low)}} m</p>
-        <p>Difficulty: {{displayedItem.difficulty}}</p>
-      </div>
-      <div>
-        <img :src="displayedItem.imgSqSmall" alt="trail picture" />
-      </div>
-    </div>
-    <div>
-      <div>
-        <h3>Current conditions</h3>
-        <p>{{displayedItem.conditionStatus}}</p>
-        <p v-if="displayedItem.conditionDetails">{{displayedItem.conditionDetails}}</p>
-        <p>(last updated on {{displayedItem.conditionDate}})</p>
-      </div>
-      <div>
-        <p class="to-fix">(here goes weather tile)</p>
-      </div>
-    </div>
-    <div>
-      <a :href="displayedItem.url" target="_blank">More info on HikingProject.com</a>
-    </div>
-    <div>
-      <router-link to="/event_finder">
-        <button class="to-fix">
-          <p>I'm going there</p>
-        </button>
-      </router-link>
-    </div>
+    <v-content class="px-3 pb-6">
+      <ResultTile :singleResult="displayedItem" :pageID="pageID" />
+      <v-card class="pa-2">
+        <div>
+          <v-row>
+            <v-col cols="8">
+              <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
+            </v-col>
+            <v-col cols="4">
+              <v-card outlined>
+                <v-img :src="displayedItem.imgSqSmall" alt="trail picture" />
+              </v-card>
+            </v-col>
+          </v-row>
+          <div>
+            <v-row>
+              <v-col cols="5" class="pb-1">
+                <p class="mb-0">
+                  <span class="font-weight-bold">Length:</span>
+                  {{milesToKm(displayedItem["length"])}} km
+                </p>
+              </v-col>
+              <v-col cols="7" class="pb-1">
+                <p class="mb-0">
+                  <span class="font-weight-bold">Difficulty:</span>
+                  {{difficultyDisplay}}
+                </p>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="5" class="pt-0">
+                <p class="mb-0">
+                  <span class="font-weight-bold">Ascent:</span>
+                  {{feetToM(displayedItem.ascent)}} m
+                </p>
+                <p class="mb-0">
+                  <span class="font-weight-bold">Descent:</span>
+                  {{-feetToM(displayedItem.descent)}} m
+                </p>
+              </v-col>
+              <v-col cols="7" class="pt-0">
+                <p class="mb-0">
+                  <span class="font-weight-bold">Highest point:</span>
+                  {{feetToM(displayedItem.high)}} m
+                </p>
+                <p class="mb-0">
+                  <span class="font-weight-bold">Lowest point:</span>
+                  {{feetToM(displayedItem.low)}} m
+                </p>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+        <div>
+          <h3 class="mt-3">Current conditions</h3>
+          <v-row>
+            <v-col cols="8">
+              <p class="mb-1">{{displayedItem.conditionStatus}}</p>
+              <p
+                class="mb-1"
+                v-if="displayedItem.conditionDetails"
+              >{{displayedItem.conditionDetails}}</p>
+              <p class="mb-1">(last updated on {{displayedItem.conditionDate}})</p>
+            </v-col>
+            <v-col cols="4">
+              <p class="to-fix">(here goes weather tile)</p>
+            </v-col>
+          </v-row>
+        </div>
+        <div class="text-center mt-2 mb-5">
+          <a :href="displayedItem.url" target="_blank">More info on HikingProject.com</a>
+        </div>
+        <div class="text-center">
+          <v-btn class="to-fix" to="/event_finder" color="light-green darken-3" dark>I'm going there</v-btn>
+        </div>
+      </v-card>
+    </v-content>
   </div>
 </template>
 
@@ -89,6 +130,27 @@ export default {
         .catch(function(error) {
           alert("Error in retrieving data:" + error);
         });
+    }
+  },
+
+  computed: {
+    difficultyDisplay() {
+      switch (this.displayedItem.difficulty) {
+        case "dblack":
+          return "Extreme";
+        case "black":
+          return "Hard";
+        case "blueBlack":
+          return "Advanced";
+        case "blue":
+          return "Intermediate";
+        case "greenBlue":
+          return "Moderate";
+        case "green":
+          return "Easy";
+        default:
+          return "?";
+      }
     }
   },
 

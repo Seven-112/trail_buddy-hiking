@@ -1,5 +1,5 @@
 <template>
-  <v-card ripple class="pa-2 my-2">
+  <v-card ripple hover class="pa-2 my-2">
     <div class="d-flex justify-space-between">
       <div>
         <v-card-title class="subtitle-1 font-weight-bold pb-0">{{singleResult.name}}</v-card-title>
@@ -55,6 +55,8 @@ export default {
     difficultyCalculator() {
       switch (this.singleResult.difficulty) {
         case "dblack":
+          return 6;
+        case "black":
           return 5;
         case "blueBlack":
           return 4;

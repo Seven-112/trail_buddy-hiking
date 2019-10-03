@@ -1,29 +1,39 @@
 <template>
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
-    <ResultTile :singleResult="displayedItem" :pageID="pageID" />
-    <div>
-      <!--<router-link :to="'/trail_finder/detail/' + displayedItem.trailID ">More info on the trail</router-link>-->
-      <!-- REMOVE INLINE STYLE!-->
-      <p class="link-text" v-on:click="goToTrailDetail(displayedItem)">More info on the trail</p>
-    </div>
-    <div>
-      <h3>Who's coming</h3>
-      <div
-        v-for="(participant, index) in displayedItem.participantsList"
-        :key="index"
-        class="to-fix"
-      >
-        <p>
-          <span>(user pic)</span>
-          Participant ID: {{participant.memberID}}
-        </p>
-      </div>
-      <h3>Event Chat</h3>
-      <div>
-        <p class="to-fix">(here goes chat)</p>
-      </div>
-    </div>
+    <v-content class="px-3 pb-6">
+      <ResultTile :singleResult="displayedItem" :pageID="pageID" />
+      <v-card class="pa-3 my-3">
+        <div class="text-center">
+          <v-btn
+            class="text-none indigo--text underlined"
+            text
+            v-on:click="goToTrailDetail(displayedItem)"
+          >More info on the trail</v-btn>
+        </div>
+        <div>
+          <h3>Who's coming</h3>
+          <div
+            v-for="(participant, index) in displayedItem.participantsList"
+            :key="index"
+            class="to-fix"
+          >
+            <p>
+              <span>(user pic)</span>
+              Participant ID: {{participant.memberID}}
+            </p>
+          </div>
+        </div>
+      </v-card>
+      <v-card class="pa-3 my-3">
+        <div>
+          <h3>Event Chat</h3>
+          <div>
+            <p class="to-fix">(here goes chat)</p>
+          </div>
+        </div>
+      </v-card>
+    </v-content>
   </div>
 </template>
 
@@ -82,13 +92,7 @@ export default {
 </script>
 
 <style>
-.link-text {
-  color: blue;
+.underlined {
   text-decoration: underline;
-}
-
-.link-text:hover {
-  color: rgb(0, 110, 255);
-  cursor: pointer;
 }
 </style>

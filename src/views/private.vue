@@ -1,27 +1,29 @@
 <template>
   <div>
-    <div>
-      <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
-    </div>
-    <div>
+    <v-content>
       <div>
-        <br />
-        <strong class="to-fix">(here goes profile pic)</strong>
-        <br />
+        <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
       </div>
       <div>
-        <h3 class="to-fix">Name Surname</h3>
-        <p class="to-fix">(here goes self description)</p>
-        <button class="to-fix">Edit profile</button>
-        <button class="to-fix">Log out</button>
-      </div>
-      <div>
-        <h3 class="to-fix">My Events</h3>
         <div>
-          <p class="to-fix">(here goes user's event list)</p>
+          <br />
+          <strong class="to-fix">(here goes profile pic)</strong>
+          <br />
+        </div>
+        <div>
+          <h3 class="to-fix">Name Surname</h3>
+          <p class="to-fix">(here goes self description)</p>
+          <button class="to-fix">Edit profile</button>
+          <button class="to-fix">Log out</button>
+        </div>
+        <div>
+          <h3 class="to-fix">My Events</h3>
+          <div>
+            <p class="to-fix">(here goes user's event list)</p>
+          </div>
         </div>
       </div>
-    </div>
+    </v-content>
     <!--<button v-on:click="testStoreShow">Showing here...</button>
     <p>{{testVar.name}}</p>-->
   </div>

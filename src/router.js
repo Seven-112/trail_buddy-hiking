@@ -7,6 +7,7 @@ import EventFinder from './views/event_finder.vue'
 import EventInfo from './views/event_info.vue'
 import Private from './views/private.vue'
 import Login from './views/login.vue'
+import chatlogin from './views/chat.vue'
 
 Vue.use(Router)
 
@@ -44,6 +45,10 @@ export default new Router({
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/chatlogin',
+      component: chatlogin
     }
   ]
 })

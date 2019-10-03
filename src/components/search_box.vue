@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-3">
     <v-form>
       <div>
         <v-text-field
@@ -29,7 +29,13 @@
       </div>
       <div>
         <p class="caption mb-0 grey--text text--darken-2">Select dates</p>
-        <v-radio-group class="mt-0" row v-model="searchParams.inputDateType">
+        <v-radio-group
+          class="mt-0"
+          row
+          dense
+          v-model="searchParams.inputDateType"
+          v-on:change="changeInput"
+        >
           <v-radio
             color="light-green darken-3"
             label="Set date"
@@ -37,7 +43,6 @@
             name="search-date-type"
             value="date-type-set"
             id="date-type-set"
-            v-on:change="changeInput"
           />
           <v-radio
             color="light-green darken-3"
@@ -46,7 +51,6 @@
             name="search-date-type"
             value="date-type-range"
             id="date-type-range"
-            v-on:change="changeInput"
           />
           <v-radio
             color="light-green darken-3"
@@ -55,33 +59,48 @@
             name="search-date-type"
             value="date-type-any"
             id="date-type-any"
-            v-on:change="changeInput"
           />
         </v-radio-group>
       </div>
-      <div v-if="searchParams.inputDateType !== 'date-type-any'">
-        <label for="search-date-start">
-          <span v-if="searchParams.inputDateType==='date-type-range'">Between</span>
-        </label>
-        <input
-          type="date"
-          name="search-date-start"
-          id="search-date-start"
-          v-model="searchParams.inputDateStart"
-          v-on:change="changeInput"
-        />
-        <label for="search-date-end">
-          <span v-if="searchParams.inputDateType==='date-type-range'">and</span>
-        </label>
-        <input
-          v-if="searchParams.inputDateType==='date-type-range'"
-          type="date"
-          name="search-date-end"
-          id="search-date-end"
-          v-model="searchParams.inputDateEnd"
-          v-on:change="changeInput"
-        />
-      </div>
+
+      <v-row>
+        <div v-if="searchParams.inputDateType !== 'date-type-any'">
+          <v-col cols="12" class="d-flex align-center">
+            <p class="mb-0 mr-3 py-2" v-if="searchParams.inputDateType==='date-type-range'">Between</p>
+            <v-menu dense>
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  dense
+                  label="Select date"
+                  readonly
+                  v-model="searchParams.inputDateStart"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="searchParams.inputDateStart" v-on:change="changeInput"></v-date-picker>
+            </v-menu>
+          </v-col>
+
+          <v-col
+            v-if="searchParams.inputDateType==='date-type-range'"
+            cols="12"
+            class="d-flex align-center my-0 py-0"
+          >
+            <p class="mb-0 mr-3 py-2">and</p>
+            <v-menu>
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="Select date"
+                  readonly
+                  v-model="searchParams.inputDateEnd"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="searchParams.inputDateEnd" v-on:change="changeInput"></v-date-picker>
+            </v-menu>
+          </v-col>
+        </div>
+      </v-row>
     </v-form>
   </div>
 </template>
@@ -119,7 +138,7 @@ export default {
   methods: {
     changeInput() {
       this.$emit("inputChanged", this.searchParams);
-      //console.log("emitted value is:" + this.searchParams);
+      //console.log("emitted value is:" + this.searchParams.inputDateType);
     }
   },
 
@@ -136,4 +155,19 @@ export default {
 </script>
 
 <style>
+/*.v-messages {
+  min-height: 0 !important;
+}*/
+/*.lowheight {
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}*/
+.v-input__control {
+  height: 40px !important;
+}
+.v-input--is-readonly {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 </style>

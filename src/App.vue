@@ -4,7 +4,8 @@
       <router-link to="/">Home |</router-link>
       <router-link to="/trail_finder">TrailF |</router-link>
       <router-link to="/event_finder">EventF |</router-link>
-      <router-link to="/private">Private</router-link>
+      <router-link to="/private">Private |</router-link>
+      <router-link to="/chatlogin">Chat</router-link>
     </div>-->
     <router-view :logged="logged" />
   </v-app>
@@ -15,7 +16,7 @@
 export default {
   data() {
     return {
-      logged: false //SET TO FALSE AT THE END
+      logged: true //SET TO FALSE AT THE END
     };
   }
 };
@@ -49,5 +50,8 @@ export default {
 .hoverable:hover {
   cursor: pointer;
   color: darkslategrey;
+}
+.v-input__control {
+  height: 30px;
 }
 </style>

@@ -8,14 +8,17 @@
         <div>
           <SearchBox v-on:inputChanged="updateInput($event)" />
         </div>
-        <div>
+        <div class="my-3">
           <span>Can't find an event like this?</span>
-          <button class="to-fix">Create it</button>
+          <v-btn
+            small
+            class="to-fix mx-2"
+            color="light-green darken-3"
+            dark
+            v-on:click="createEvent(searchParams)"
+          >Create it</v-btn>
         </div>
-        <div>
-          <h2>Events found</h2>
-        </div>
-        <div>
+        <div class="my-5">
           <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
         </div>
       </div>
@@ -58,9 +61,9 @@ export default {
             { memberID: 3333 },
             { memberID: 1111 },
             { memberID: 6666 }
-          ],
+          ]
           //here start normal trail data
-          id: 7003941,
+          /*id: 7003941,
           name: "Pilatus Mountain/Pilatus Kulm",
           type: "Featured Hike",
           summary:
@@ -88,7 +91,7 @@ export default {
           latitude: 46.9553,
           conditionStatus: "All Clear",
           conditionDetails: "",
-          conditionDate: "2019-06-27 02:26:05"
+          conditionDate: "2019-06-27 02:26:05"*/
         },
         {
           eventID: 23456,
@@ -181,11 +184,43 @@ export default {
 
   methods: {
     updateInput(receivedInput) {
+      //console.log("--- updatingInput!");
       this.searchParams.inputTrail = receivedInput.inputTrail;
       this.searchParams.inputStatus = receivedInput.inputStatus;
       this.searchParams.inputDateType = receivedInput.inputDateType;
       this.searchParams.inputDateStart = receivedInput.inputDateStart;
       this.searchParams.inputDateEnd = receivedInput.inputDateEnd;
+      //console.log(this.searchParams.inputStatus);
+      //console.log("received date type: " + this.searchParams.inputDateType);
+    },
+    createEvent(eventParams) {
+      //first, check that parameters make sense
+      console.log("date type: " + eventParams.inputDateType);
+      if (dateTypeIsSet) {
+        console.log("dateTypeIsSet is true ");
+      } else {
+        console.log("dateTypeIsSet is false ");
+      }
+
+      let statusIsAny = eventParams.inputStatus === "status-any";
+      let statusIsDecided = eventParams.inputStatus === "status-decided";
+      let dateTypeIsSet = eventParams.inputDateType === "date-type-set";
+      let dateTypeIsRange = eventParams.inputDateType === "date-type-range";
+      if (statusIsAny) {
+        alert("Please set the status as 'Proposed' or 'Decided'");
+        return;
+      } else if (statusIsDecided && !dateTypeIsSet) {
+        alert(
+          "If you want to set the event as 'Decided', please define a set date"
+        );
+        return;
+      } else if (
+        (!eventParams.inputDateStart && (dateTypeIsSet || dateTypeIsRange)) ||
+        (!eventParams.inputDateEnd && dateTypeIsRange)
+      ) {
+        alert("Please define all required date(s)");
+      }
+      console.log("Proceeding to event creation...");
     }
   }
 };

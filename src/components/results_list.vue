@@ -6,7 +6,18 @@
       </div>
     </div>
     <div v-if="filterResultsList.length === 0">
-      <p>No results found!</p>
+      <v-alert
+        dark
+        dense
+        class="text-center"
+        elevation="5"
+        border="left"
+        color-border
+        color="warning"
+        text
+      >
+        <v-icon color="warning" class="mr-2">mdi-map-marker-alert</v-icon>Nothing found!
+      </v-alert>
     </div>
   </div>
 </template>
