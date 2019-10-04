@@ -6,7 +6,6 @@
       <v-btn @click="getMessages">Get Messages</v-btn>
     </div>
     <div>
-      <!--<v-text-field v-model="inputMessage"></v-text-field>-->
       <v-text-field type="text" v-model="message" placeholder="write here" />
       <v-btn @click="sendMessage">Send</v-btn>
     </div>

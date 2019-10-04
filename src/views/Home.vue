@@ -1,6 +1,5 @@
 <template>
   <div class="home-container p-0">
-    <!--<HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />-->
     <v-content>
       <div class="upper-box d-flex justify-center align-end pb-12">
         <div>
@@ -22,20 +21,21 @@
           <h2 class="text-center white--text headline py-3">Find a trail</h2>
         </div>
 
-        <div v-if="logged===false" class="d-flex flex-column align-center">
+        <div v-if="logged === false" class="d-flex flex-column align-center">
           <v-btn
             dark
             fab
             color="blue darken-2"
             x-large
             v-if="pageID !== 'trail_finder'"
-            to="/login"
+            v-on:click="login"
           >
             <v-icon x-large>mdi-account-arrow-left</v-icon>
           </v-btn>
           <h2 class="text-center white--text headline py-3">Login</h2>
         </div>
-        <div v-if="logged===true" class="d-flex flex-column align-center">
+
+        <div v-if="logged === true" class="d-flex flex-column align-center">
           <v-btn
             dark
             fab
@@ -48,15 +48,6 @@
           </v-btn>
           <h2 class="text-center white--text headline py-3">Private Area</h2>
         </div>
-
-        <!--<div>
-          <router-link to="/login" tag="button" v-if="logged===false">
-            <h2>Login</h2>
-          </router-link>
-          <router-link to="/private" tag="button" v-else>
-            <h2>Private Area</h2>
-          </router-link>
-        </div>-->
       </div>
     </v-content>
   </div>
@@ -64,6 +55,7 @@
 
 
 <script>
+import firebase from "firebase";
 export default {
   name: "home",
   components: {},
@@ -74,11 +66,28 @@ export default {
     };
   },
   props: {
-    logged: {
+    /*logged: {
       type: Boolean
+    }*/
+  },
+  methods: {
+    login() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(user => {
+          console.log(user);
+          this.$store.commit("login");
+        })
+        .catch(err => alert("Error during login: " + err));
     }
   },
-  methods: {}
+  computed: {
+    logged() {
+      return this.$store.state.logged;
+    }
+  }
 };
 </script>
 

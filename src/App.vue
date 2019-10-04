@@ -7,7 +7,9 @@
       <router-link to="/private">Private |</router-link>
       <router-link to="/chatlogin">Chat</router-link>
     </div>-->
-    <router-view :logged="logged" />
+    <router-view />
+    <!--CHANGE ON VUEX-->
+    <!-- CHANGE v-on ABOVE ON VUEX-->
   </v-app>
 </template>
 
@@ -16,8 +18,15 @@
 export default {
   data() {
     return {
-      logged: true //SET TO FALSE AT THE END
+      //logged: false //SET TO FALSE AT THE END
     };
+  },
+  methods: {
+    /*updateLoginStatus(receivedInput) {
+      //CHANGE ON VUEX
+      this.logged = receivedInput;
+      console.log("Login status changed to " + this.logged);
+    }*/
   }
 };
 </script>

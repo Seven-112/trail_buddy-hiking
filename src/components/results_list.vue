@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="(singleResult, index) in filterResultsList" :key="index">
-      <div v-on:click="goToDetail(singleResult)" class="hoverable">
+      <div v-on:click="goToDetail(singleResult)">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
       </div>
     </div>
@@ -51,13 +51,13 @@ export default {
 
   methods: {
     goToDetail(oneResult) {
-      localStorage.storedResult = JSON.stringify(oneResult); //REMOVE WHEN AXIOS COMPLETE FOR EVENTS
-      //localStorage.storedTrail = oneResult.id;
+      this.$store.state.selectedItem = oneResult;
+      //following lines direct to either trail_info or event_info, with correct ID for fetch
       if (oneResult.eventID) {
         localStorage.storedEvent = oneResult.eventID;
-        this.$router.push("/" + this.pageID + "/detail/" + oneResult.eventId); //THIS WILL BE USED FOR EVENT FETCH
+        this.$router.push("/event_finder/detail/" + oneResult.eventId); //ID WILL BE USED FOR EVENT FETCH
       } else {
-        this.$router.push("/" + this.pageID + "/detail/" + oneResult.id);
+        this.$router.push("/trail_finder/detail/" + oneResult.id);
       }
     }
   },
@@ -66,7 +66,8 @@ export default {
     filterResultsList() {
       if (this.pageID === "trail_finder") {
         return this.resultsList;
-      }
+      } //no filters are applied in trail_info
+
       return this.resultsList.filter(x => {
         let nameCond = x["name"]
           .toLowerCase()
@@ -76,8 +77,9 @@ export default {
           this.searchParams.inputStatus === "status-any";
 
         let dateCond = true; //covers all cases where either input or event date is "any"
-
         //down here we set conditions for all other date type cases
+        //first we apply correct values for start and end dates to both ENTERED and EVENT dates
+        //if it is not a range of dates, the start and end dates will be the same by default
         if (
           this.searchParams.inputDateType !== "date-type-any" &&
           x.dateRangeType !== "date-type-any" &&

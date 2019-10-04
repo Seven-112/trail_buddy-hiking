@@ -38,7 +38,7 @@
         class="flex-shrink-1"
         icon
         v-if="pageID !== 'private' && logged === false"
-        v-on:click="navigate('/login')"
+        v-on:click="login"
       >
         <v-icon>mdi-account-arrow-left</v-icon>
       </v-btn>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 export default {
   name: "HeaderNav",
   props: {
@@ -55,10 +56,10 @@ export default {
     },
     pageTitle: {
       type: String
-    },
+    } /*,
     logged: {
       type: Boolean
-    }
+    }*/
   },
   data() {
     return {};
@@ -69,8 +70,25 @@ export default {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
     navigate(path) {
-      localStorage.storedResult = ""; //resets local storage
+      localStorage.storedResult = ""; //resets selected item in the store
       this.$router.push(path);
+    },
+    login() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(user => {
+          console.log(user);
+          this.$store.commit("login");
+        })
+        .catch(err => alert(err));
+    }
+  },
+
+  computed: {
+    logged() {
+      return this.$store.state.logged;
     }
   }
 };

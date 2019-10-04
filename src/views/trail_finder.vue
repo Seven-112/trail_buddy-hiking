@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
+    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
       <div class="pa-3">
         <div>
@@ -132,9 +132,9 @@ export default {
   },
 
   props: {
-    logged: {
+    /*logged: {
       type: Boolean
-    }
+    }*/
   },
 
   methods: {

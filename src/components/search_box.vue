@@ -113,6 +113,7 @@ export default {
     return {
       searchParams: {
         inputTrail: "",
+        inputTrailID: "",
         inputStatus: "status-any",
         inputDateType: "date-type-any",
         inputDateStart: "",
@@ -143,6 +144,7 @@ export default {
   },
 
   mounted() {
+    //CHANGE AFTER VUEX
     if (localStorage.storedResult) {
       console.log("in local storage: " + localStorage.storedResult);
       this.searchParams.inputTrail = JSON.parse(localStorage.storedResult)[
@@ -155,14 +157,6 @@ export default {
 </script>
 
 <style>
-/*.v-messages {
-  min-height: 0 !important;
-}*/
-/*.lowheight {
-  height: 1px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}*/
 .v-input__control {
   height: 40px !important;
 }

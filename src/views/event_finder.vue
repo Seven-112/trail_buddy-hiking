@@ -1,14 +1,15 @@
 <template>
   <div>
     <div>
-      <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
+      <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     </div>
     <v-content>
       <div class="pa-3">
         <div>
           <SearchBox v-on:inputChanged="updateInput($event)" />
         </div>
-        <div class="my-3">
+        <div v-if="searchParams.inputTrailID" class="my-3">
+          <!-- FIX THIS ABOVE!-->
           <span>Can't find an event like this?</span>
           <v-btn
             small
@@ -20,6 +21,7 @@
         </div>
         <div class="my-5">
           <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
+          <!-- NEED AXIOS FOR eventList!! -->
         </div>
       </div>
     </v-content>
@@ -30,6 +32,7 @@
 import HeaderNav from "@/components/header_nav.vue";
 import SearchBox from "@/components/search_box.vue";
 import ResultsList from "@/components/results_list.vue";
+import firebase from "firebase";
 
 export default {
   name: "EventFinder",
@@ -45,6 +48,7 @@ export default {
       pageTitle: "Find an Event",
       searchParams: {
         inputTrail: "",
+        inputTrailID: "",
         inputStatus: "status-any",
         inputDateType: "date-type-any",
         inputDateStart: "",
@@ -53,6 +57,7 @@ export default {
       eventList: [
         {
           eventID: 12345,
+          creatorID: 5551,
           status: "status-decided",
           dateRangeType: "date-type-set",
           startDate: "2019-10-10",
@@ -95,6 +100,7 @@ export default {
         },
         {
           eventID: 23456,
+          creatorID: 5551,
           status: "status-proposed",
           dateRangeType: "date-type-any",
           startDate: "",
@@ -131,6 +137,7 @@ export default {
         },
         {
           eventID: 34567,
+          creatorID: 6662,
           status: "status-proposed",
           dateRangeType: "date-type-range",
           startDate: "2019-09-25",
@@ -177,31 +184,25 @@ export default {
   },
 
   props: {
-    logged: {
+    /*logged: {
       type: Boolean
-    }
+    }*/
   },
 
   methods: {
     updateInput(receivedInput) {
-      //console.log("--- updatingInput!");
       this.searchParams.inputTrail = receivedInput.inputTrail;
       this.searchParams.inputStatus = receivedInput.inputStatus;
       this.searchParams.inputDateType = receivedInput.inputDateType;
       this.searchParams.inputDateStart = receivedInput.inputDateStart;
       this.searchParams.inputDateEnd = receivedInput.inputDateEnd;
-      //console.log(this.searchParams.inputStatus);
-      //console.log("received date type: " + this.searchParams.inputDateType);
     },
     createEvent(eventParams) {
       //first, check that parameters make sense
-      console.log("date type: " + eventParams.inputDateType);
-      if (dateTypeIsSet) {
-        console.log("dateTypeIsSet is true ");
-      } else {
-        console.log("dateTypeIsSet is false ");
+      if (this.logged === false) {
+        alert("You need to log in to create an event!");
+        return;
       }
-
       let statusIsAny = eventParams.inputStatus === "status-any";
       let statusIsDecided = eventParams.inputStatus === "status-decided";
       let dateTypeIsSet = eventParams.inputDateType === "date-type-set";
@@ -219,8 +220,71 @@ export default {
         (!eventParams.inputDateEnd && dateTypeIsRange)
       ) {
         alert("Please define all required date(s)");
+        return;
+      } else if (!eventParams.inputTrail) {
+        alert("Please enter the name of the trail");
+        return;
       }
-      console.log("Proceeding to event creation...");
+      console.log("checks ok, proceeding to event creation...");
+
+      //here we create the event
+      let now = new Date();
+      let uniqueID = firebase.auth().currentUser.uid.toString() + now.getTime();
+      let obj = {
+        eventID: uniqueID,
+        creatorName: firebase.auth().currentUser.displayName,
+        creatorID: firebase.auth().currentUser.uid,
+        status: this.searchParams.inputStatus,
+        dateRangeType: this.searchParams.inputDateType,
+        startDate: this.searchParams.inputDateStart,
+        endDate: this.searchParams.inputDateEnd,
+        participantsList: [
+          {
+            name: firebase.auth().currentUser.displayName,
+            id: firebase.auth().currentUser.uid,
+            photoURL: firebase.auth().currentUser.photoURL
+          }
+        ],
+        name: this.searchParams.inputTrail
+      };
+      console.log(obj);
+      window.confirm("Create this event?\nPlace: ");
+    }
+    /*sendMessage() {
+ 
+      let obj = {
+        text: this.message,
+        name: firebase.auth().currentUser.displayName,
+        foto: firebase.auth().currentUser.photoURL
+      };
+      firebase
+        .database()
+        .ref("chat")
+        .push(obj);
+    }
+    
+          eventID: 34567,
+          creatorName: "Roberto Milani"
+          creatorID: 6662,
+          status: "status-proposed",
+          dateRangeType: "date-type-range",
+          startDate: "2019-09-25",
+          endDate: "2020-01-05",
+          participantsList: [
+            { memberID: 3333 },
+            { memberID: 2222 },
+            { memberID: 7777 },
+            { memberID: 8888 }
+          ],
+          //here start normal trail data
+          id: 1234567,
+          name: "Mount Doom"
+    */
+  },
+
+  computed: {
+    logged() {
+      return this.$store.state.logged;
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" :logged="logged" />
+    <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content class="px-3 pb-6">
       <ResultTile :singleResult="displayedItem" :pageID="pageID" />
       <v-card class="pa-2">
@@ -85,7 +85,7 @@
 <script>
 import HeaderNav from "@/components/header_nav.vue";
 import ResultTile from "@/components/result_tile.vue";
-import axios from "axios"; // TRYING AXIOS
+import axios from "axios";
 export default {
   name: "TrailInfo",
 
@@ -103,9 +103,9 @@ export default {
   },
 
   props: {
-    logged: {
+    /*logged: {
       type: Boolean
-    }
+    }*/
   },
 
   methods: {
@@ -114,7 +114,7 @@ export default {
     },
     feetToM(val) {
       return (val * 0.3048).toFixed(0);
-    },
+    } /*,
     getSingleTrail() {
       axios
         .get("https://www.hikingproject.com/data/get-trails-by-id", {
@@ -130,7 +130,7 @@ export default {
         .catch(function(error) {
           alert("Error in retrieving data:" + error);
         });
-    }
+    }*/
   },
 
   computed: {
@@ -156,7 +156,8 @@ export default {
 
   created() {
     //this.displayedItem = JSON.parse(localStorage.storedResult); //REMOVE IF USING AXIOS
-    this.getSingleTrail();
+    //this.getSingleTrail();
+    this.displayedItem = this.$store.state.selectedItem;
   }
 };
 </script>

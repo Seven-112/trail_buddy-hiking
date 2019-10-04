@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify';
 import '@babel/polyfill'
 import firebase from "firebase";
 
+
 Vue.config.productionTip = false
 
 new Vue({
