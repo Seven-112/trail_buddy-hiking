@@ -2,16 +2,25 @@
   <div class="my-3">
     <v-form>
       <div>
-        <v-text-field
-          label="Trail name"
-          name="search-trail"
-          id="search-trail"
-          placeholder="e.g. Great Lake Trail"
-          v-model="searchParams.inputTrail"
-          v-on:keyup="changeInput"
-        />
+        <div class="d-flex align-center">
+          <v-text-field
+            label="Trail name"
+            name="search-trail"
+            id="search-trail"
+            placeholder="e.g. Great Lake Trail"
+            v-model="searchParams.inputTrail"
+            v-on:keyup="changeInput"
+            :disabled="this.$store.state.selectedItem.id"
+          />
 
-        <!--<label for="search-status">Status:</label>-->
+          <v-btn
+            v-if="this.$store.state.selectedItem.id"
+            small
+            class="ml-2"
+            v-on:click="resetSelectedItem"
+          >Reset</v-btn>
+        </div>
+
         <v-select
           label="Status"
           :items="statusOptions"
@@ -139,17 +148,17 @@ export default {
   methods: {
     changeInput() {
       this.$emit("inputChanged", this.searchParams);
-      //console.log("emitted value is:" + this.searchParams.inputDateType);
+    },
+    resetSelectedItem() {
+      this.$store.state.selectedItem = {};
+      this.searchParams.inputTrail = "";
+      this.$emit("itemReset", "Browse events"); // A VER
     }
   },
 
   mounted() {
-    //CHANGE AFTER VUEX
-    if (localStorage.storedResult) {
-      console.log("in local storage: " + localStorage.storedResult);
-      this.searchParams.inputTrail = JSON.parse(localStorage.storedResult)[
-        "name"
-      ];
+    if (this.$store.state.selectedItem) {
+      this.searchParams.inputTrail = this.$store.state.selectedItem["name"];
       this.changeInput();
     }
   }

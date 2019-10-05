@@ -70,7 +70,7 @@ export default {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
     navigate(path) {
-      localStorage.storedResult = ""; //resets selected item in the store
+      this.$store.state.selectedItem = {}; //resets selected item in the store
       this.$router.push(path);
     },
     login() {
@@ -95,4 +95,7 @@ export default {
 </script>
 
 <style>
+.v-toolbar__content {
+  padding: 4px 12px;
+}
 </style>

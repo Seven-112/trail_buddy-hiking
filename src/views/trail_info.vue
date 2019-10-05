@@ -17,13 +17,13 @@
           </v-row>
           <div>
             <v-row>
-              <v-col cols="5" class="pb-1">
+              <v-col cols="5" class="pb-1 px-2">
                 <p class="mb-0">
                   <span class="font-weight-bold">Length:</span>
                   {{milesToKm(displayedItem["length"])}} km
                 </p>
               </v-col>
-              <v-col cols="7" class="pb-1">
+              <v-col cols="7" class="pb-1 px-2">
                 <p class="mb-0">
                   <span class="font-weight-bold">Difficulty:</span>
                   {{difficultyDisplay}}
@@ -31,7 +31,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="5" class="pt-0">
+              <v-col cols="5" class="pt-0 px-2">
                 <p class="mb-0">
                   <span class="font-weight-bold">Ascent:</span>
                   {{feetToM(displayedItem.ascent)}} m
@@ -41,7 +41,7 @@
                   {{-feetToM(displayedItem.descent)}} m
                 </p>
               </v-col>
-              <v-col cols="7" class="pt-0">
+              <v-col cols="7" class="pt-0 px-2">
                 <p class="mb-0">
                   <span class="font-weight-bold">Highest point:</span>
                   {{feetToM(displayedItem.high)}} m
@@ -149,7 +149,7 @@ export default {
         case "green":
           return "Easy";
         default:
-          return "?";
+          return "Unknown";
       }
     }
   },

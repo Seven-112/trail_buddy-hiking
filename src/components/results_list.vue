@@ -54,10 +54,10 @@ export default {
       this.$store.state.selectedItem = oneResult;
       //following lines direct to either trail_info or event_info, with correct ID for fetch
       if (oneResult.eventID) {
-        localStorage.storedEvent = oneResult.eventID;
+        //localStorage.storedEvent = oneResult.eventID;
         this.$router.push("/event_finder/detail/" + oneResult.eventId); //ID WILL BE USED FOR EVENT FETCH
       } else {
-        this.$router.push("/trail_finder/detail/" + oneResult.id);
+        this.$router.push("/trail_finder/detail/" + oneResult.id); //ID WILL BE USED FOR TRAIL FETCH
       }
     }
   },
@@ -76,10 +76,10 @@ export default {
           x.status == this.searchParams.inputStatus ||
           this.searchParams.inputStatus === "status-any";
 
-        let dateCond = true; //covers all cases where either input or event date is "any"
-        //down here we set conditions for all other date type cases
-        //first we apply correct values for start and end dates to both ENTERED and EVENT dates
-        //if it is not a range of dates, the start and end dates will be the same by default
+        let dateCond = true; //covers all cases where either input or event date type is "any"
+        //if *neither* is "any", in the "if" block down here we set necessary conditions
+        //first we apply values for start and end dates to both ENTERED and EVENT dates
+        //note: if date type is "set", the start and end dates will be equal
         if (
           this.searchParams.inputDateType !== "date-type-any" &&
           x.dateRangeType !== "date-type-any" &&
@@ -89,24 +89,36 @@ export default {
           let eventStartDate = new Date(x.startDate);
           let enteredEndDate = new Date(this.searchParams.inputDateStart); //avoids undefined values  for "set" ENTERED date
           let eventEndDate = new Date(x.startDate); //avoids undefined values  for "set" EVENT date
+
+          //we set end date if ENTERED date is "range" type
           if (
             this.searchParams.inputDateType === "date-type-range" &&
             this.searchParams.inputDateEnd //does not run if user has not yet entered 2nd date
           ) {
-            enteredEndDate = new Date(this.searchParams.inputDateEnd); //sets end date for "range" ENTERED date
+            enteredEndDate = new Date(this.searchParams.inputDateEnd);
           }
+
+          //we set end date if EVENT date is "range" type
           if (x.dateRangeType === "date-type-range") {
-            eventEndDate = new Date(x.endDate); //sets end date for "range" EVENT date
+            eventEndDate = new Date(x.endDate);
           }
-          let startingDateCond =
-            eventStartDate <= enteredStartDate &&
+
+          // here we swap ENTERED dates if starting date is later than end date
+          if (enteredStartDate > enteredEndDate) {
+            let temp = new Date();
+            temp = enteredStartDate;
+            enteredStartDate = enteredEndDate;
+            enteredEndDate = temp;
+          }
+
+          //here we set the conditions
+          let matchingDates1 =
+            enteredStartDate <= eventStartDate &&
+            enteredEndDate >= eventStartDate;
+          let matchingDates2 =
+            enteredStartDate >= eventStartDate &&
             enteredStartDate <= eventEndDate;
-          let endingDateCond =
-            eventStartDate <= enteredEndDate &&
-            enteredStartDate <= eventEndDate;
-          dateCond = startingDateCond || endingDateCond;
-          //condition is valid for both "set" and "range" types on both ENTERED and EVENT dates;
-          // does not matter if enteredStartDate > enteredEndDate, algorithm works the same
+          dateCond = matchingDates1 || matchingDates2;
         }
 
         return nameCond && statusCond && dateCond;

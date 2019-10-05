@@ -8,7 +8,7 @@
         <div>
           <SearchBox v-on:inputChanged="updateInput($event)" />
         </div>
-        <div v-if="searchParams.inputTrailID" class="my-3">
+        <div v-if="this.$store.state.selectedItem.id" class="my-3">
           <!-- FIX THIS ABOVE!-->
           <span>Can't find an event like this?</span>
           <v-btn
@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       pageID: "event_finder",
-      pageTitle: "Find an Event",
       searchParams: {
         inputTrail: "",
         inputTrailID: "",
@@ -66,9 +65,9 @@ export default {
             { memberID: 3333 },
             { memberID: 1111 },
             { memberID: 6666 }
-          ]
+          ],
           //here start normal trail data
-          /*id: 7003941,
+          id: 7003941,
           name: "Pilatus Mountain/Pilatus Kulm",
           type: "Featured Hike",
           summary:
@@ -96,7 +95,7 @@ export default {
           latitude: 46.9553,
           conditionStatus: "All Clear",
           conditionDetails: "",
-          conditionDate: "2019-06-27 02:26:05"*/
+          conditionDate: "2019-06-27 02:26:05"
         },
         {
           eventID: 23456,
@@ -108,8 +107,8 @@ export default {
           participantsList: [{ memberID: 2222 }],
           //here start normal trail data
           id: 7051324,
-          name: "Seceda - Odles"
-          /*type: "Featured Hike",
+          name: "Seceda - Odles",
+          type: "Featured Hike",
           summary: "A beautiful trail on Odle.",
           difficulty: "greenBlue",
           stars: 5,
@@ -133,7 +132,7 @@ export default {
           latitude: 46.5979,
           conditionStatus: "Unknown",
           conditionDetails: null,
-          conditionDate: "1970-01-01 00:00:00"*/
+          conditionDate: "1970-01-01 00:00:00"
         },
         {
           eventID: 34567,
@@ -150,8 +149,8 @@ export default {
           ],
           //here start normal trail data
           id: 1234567,
-          name: "Mount Doom"
-          /*type: "Featured Hike",
+          name: "Mount Doom",
+          type: "Featured Hike",
           summary:
             "Perfect to give your beloved the One Ring and push him/her down",
           difficulty: "black",
@@ -177,7 +176,7 @@ export default {
           latitude: 48.9553,
           conditionStatus: "Dangerous",
           conditionDetails: "Nazgul infestation currently ongoing. Take care",
-          conditionDate: "2019-09-27 12:22:05"*/
+          conditionDate: "2019-09-27 12:22:05"
         }
       ]
     };
@@ -227,7 +226,7 @@ export default {
       }
       console.log("checks ok, proceeding to event creation...");
 
-      //here we create the event
+      //here we set up the event for creation
       let now = new Date();
       let uniqueID = firebase.auth().currentUser.uid.toString() + now.getTime();
       let obj = {
@@ -241,50 +240,72 @@ export default {
         participantsList: [
           {
             name: firebase.auth().currentUser.displayName,
-            id: firebase.auth().currentUser.uid,
+            ID: firebase.auth().currentUser.uid,
             photoURL: firebase.auth().currentUser.photoURL
           }
         ],
-        name: this.searchParams.inputTrail
+        trail: {
+          name: this.$store.state.selectedItem.name,
+          id: this.$store.state.selectedItem.id
+        }
       };
-      console.log(obj);
-      window.confirm("Create this event?\nPlace: ");
+      // here we swap dates if starting date is later than end date
+      if (
+        obj.dateRangeType === "date-type-range" &&
+        obj.startDate > obj.endDate
+      ) {
+        let temp = new Date();
+        temp = obj.startDate;
+        obj.startDate = obj.endDate;
+        obj.endDate = temp;
+      }
+
+      //popup for user confirmation
+      let dateText = "";
+      if (obj.dateRangeType === "date-type-any") {
+        dateText = "any";
+      } else {
+        dateText = obj.startDate;
+        if (
+          obj.dateRangeType === "date-type-range" &&
+          obj.startDate !== obj.endDate
+        ) {
+          dateText += " - " + obj.endDate;
+        }
+      }
+
+      let confirmText =
+        "Create this event?\nPlace: " +
+        obj.trail.name +
+        "\nStatus: " +
+        obj.status.slice(7) +
+        "\nDate(s): " +
+        dateText;
+
+      if (window.confirm(confirmText)) {
+        firebase
+          .database()
+          .ref("eventList")
+          .push(obj);
+        alert("Event created!"); //Event sent to firebase!
+      } else return;
     }
-    /*sendMessage() {
- 
-      let obj = {
-        text: this.message,
-        name: firebase.auth().currentUser.displayName,
-        foto: firebase.auth().currentUser.photoURL
-      };
-      firebase
-        .database()
-        .ref("chat")
-        .push(obj);
-    }
-    
-          eventID: 34567,
-          creatorName: "Roberto Milani"
-          creatorID: 6662,
-          status: "status-proposed",
-          dateRangeType: "date-type-range",
-          startDate: "2019-09-25",
-          endDate: "2020-01-05",
-          participantsList: [
-            { memberID: 3333 },
-            { memberID: 2222 },
-            { memberID: 7777 },
-            { memberID: 8888 }
-          ],
-          //here start normal trail data
-          id: 1234567,
-          name: "Mount Doom"
-    */
   },
 
   computed: {
     logged() {
       return this.$store.state.logged;
+    },
+    pageTitle() {
+      if (this.$store.state.selectedItem.id) {
+        return "Find/Create events";
+      } else return "Browse events";
+    }
+  },
+
+  created() {
+    if (this.$store.state.selectedItem.id) {
+      this.pageTitle = "Find/Create events";
     }
   }
 };
