@@ -67,7 +67,7 @@ export default {
         lon: 0
       },
       trailList: [
-        {
+        /*{
           id: 7003941,
           name: "Pilatus Mountain/Pilatus Kulm",
           type: "Featured Hike",
@@ -126,7 +126,7 @@ export default {
           conditionStatus: "Unknown",
           conditionDetails: null,
           conditionDate: "1970-01-01 00:00:00"
-        }
+        }*/
       ]
     };
   },

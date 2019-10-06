@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div v-for="(singleResult, index) in filterResultsList" :key="index">
+    <!--<div v-for="(singleResult, index) in filterResultsList" :key="index">-->
+    <!--<p>resultsList is: {{resultsList}}</p>-->
+    <div v-for="(singleResult, index) in resultsList" :key="index">
       <div v-on:click="goToDetail(singleResult)">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
       </div>
@@ -69,9 +71,12 @@ export default {
       } //no filters are applied in trail_info
 
       return this.resultsList.filter(x => {
-        let nameCond = x["name"]
-          .toLowerCase()
-          .includes(this.searchParams.inputTrail.toLowerCase());
+        let nameCond = true;
+        if (this.searchParams.inputTrail) {
+          let nameCond = x["name"]
+            .toLowerCase()
+            .includes(this.searchParams.inputTrail.toLowerCase());
+        }
         let statusCond =
           x.status == this.searchParams.inputStatus ||
           this.searchParams.inputStatus === "status-any";

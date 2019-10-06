@@ -9,7 +9,6 @@
           <SearchBox v-on:inputChanged="updateInput($event)" />
         </div>
         <div v-if="this.$store.state.selectedItem.id" class="my-3">
-          <!-- FIX THIS ABOVE!-->
           <span>Can't find an event like this?</span>
           <v-btn
             small
@@ -225,7 +224,8 @@ export default {
         return;
       }
       console.log("checks ok, proceeding to event creation...");
-
+      console.log("selected item is:");
+      console.log(this.$store.state.selectedItem.name);
       //here we set up the event for creation
       let now = new Date();
       let uniqueID = firebase.auth().currentUser.uid.toString() + now.getTime();
@@ -244,10 +244,8 @@ export default {
             photoURL: firebase.auth().currentUser.photoURL
           }
         ],
-        trail: {
-          name: this.$store.state.selectedItem.name,
-          id: this.$store.state.selectedItem.id
-        }
+        name: this.$store.state.selectedItem["name"],
+        id: this.$store.state.selectedItem.id
       };
       // here we swap dates if starting date is later than end date
       if (
@@ -276,7 +274,7 @@ export default {
 
       let confirmText =
         "Create this event?\nPlace: " +
-        obj.trail.name +
+        obj.name +
         "\nStatus: " +
         obj.status.slice(7) +
         "\nDate(s): " +
@@ -307,6 +305,18 @@ export default {
     if (this.$store.state.selectedItem.id) {
       this.pageTitle = "Find/Create events";
     }
+
+    console.log("selected item is:");
+    console.log(this.$store.state.selectedItem.name);
+
+    firebase
+      .database()
+      .ref("eventList")
+      .once("value", data => {
+        this.eventList = Object.values(data.val());
+        console.log("eventList is:");
+        console.log(this.eventList);
+      });
   }
 };
 </script>
