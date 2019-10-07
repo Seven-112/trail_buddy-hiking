@@ -155,8 +155,6 @@ export default {
   },
 
   created() {
-    //this.displayedItem = JSON.parse(localStorage.storedResult); //REMOVE IF USING AXIOS
-    //this.getSingleTrail();
     this.displayedItem = this.$store.state.selectedItem;
   }
 };

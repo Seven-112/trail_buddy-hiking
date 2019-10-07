@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!--<div v-for="(singleResult, index) in filterResultsList" :key="index">-->
-    <!--<p>resultsList is: {{resultsList}}</p>-->
-    <div v-for="(singleResult, index) in resultsList" :key="index">
+    <div v-for="(singleResult, index) in filterResultsList" :key="index">
+      <!--<p>resultsList is: {{resultsList}}</p>-->
+      <!--<div v-for="(singleResult, index) in resultsList" :key="index">-->
       <div v-on:click="goToDetail(singleResult)">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
       </div>
@@ -53,11 +53,11 @@ export default {
 
   methods: {
     goToDetail(oneResult) {
-      this.$store.state.selectedItem = oneResult;
+      this.$store.dispatch("changeSelectedItem", oneResult);
+
       //following lines direct to either trail_info or event_info, with correct ID for fetch
       if (oneResult.eventID) {
-        //localStorage.storedEvent = oneResult.eventID;
-        this.$router.push("/event_finder/detail/" + oneResult.eventId); //ID WILL BE USED FOR EVENT FETCH
+        this.$router.push("/event_finder/detail/" + oneResult.eventID); //ID WILL BE USED FOR EVENT FETCH
       } else {
         this.$router.push("/trail_finder/detail/" + oneResult.id); //ID WILL BE USED FOR TRAIL FETCH
       }
@@ -68,12 +68,12 @@ export default {
     filterResultsList() {
       if (this.pageID === "trail_finder") {
         return this.resultsList;
-      } //no filters are applied in trail_info
+      } //no filters are needed in trail_info
 
       return this.resultsList.filter(x => {
         let nameCond = true;
         if (this.searchParams.inputTrail) {
-          let nameCond = x["name"]
+          nameCond = x["name"]
             .toLowerCase()
             .includes(this.searchParams.inputTrail.toLowerCase());
         }

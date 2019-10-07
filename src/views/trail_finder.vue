@@ -177,7 +177,7 @@ export default {
       }
     ).addTo(mymap);
     mymap.on("click", event => {
-      console.log("map clicked at " + event.latlng);
+      //console.log("map clicked at " + event.latlng);
       if (marker) {
         mymap.removeLayer(marker);
       }

@@ -5,12 +5,14 @@
         <v-card-title class="subtitle-1 font-weight-bold pb-0">{{singleResult.name}}</v-card-title>
         <v-card-text class="py-0" v-if="pageID===('event_finder' || 'private')">{{displayEventDate}}</v-card-text>
         <v-card-text class="py-0" v-if="pageID===('trail_finder')">{{singleResult.location}}</v-card-text>
+        <!--<p>itemID: {{this.$route.params.itemID}}</p>-->
       </div>
       <div class="d-flex flex-column flex-shrink-0 justify-end">
-        <div>
+        <div v-if="this.$route.params.detail">
           <v-icon>mdi-arm-flex</v-icon>
           {{difficultyCalculator}}
         </div>
+
         <div v-if="pageID==='trail_finder'">
           <v-icon>mdi-calendar-text</v-icon>
           <span class="to-fix">XX</span>

@@ -53,7 +53,7 @@ export default {
         inputDateEnd: ""
       },
       eventList: [
-        {
+        /*{
           eventID: 12345,
           creatorID: 5551,
           status: "status-decided",
@@ -176,7 +176,7 @@ export default {
           conditionStatus: "Dangerous",
           conditionDetails: "Nazgul infestation currently ongoing. Take care",
           conditionDate: "2019-09-27 12:22:05"
-        }
+        }*/
       ]
     };
   },
@@ -224,8 +224,6 @@ export default {
         return;
       }
       console.log("checks ok, proceeding to event creation...");
-      console.log("selected item is:");
-      console.log(this.$store.state.selectedItem.name);
       //here we set up the event for creation
       let now = new Date();
       let uniqueID = firebase.auth().currentUser.uid.toString() + now.getTime();
@@ -245,7 +243,8 @@ export default {
           }
         ],
         name: this.$store.state.selectedItem["name"],
-        id: this.$store.state.selectedItem.id
+        id: this.$store.state.selectedItem.id,
+        difficulty: this.$store.state.selectedItem.difficulty
       };
       // here we swap dates if starting date is later than end date
       if (
@@ -306,16 +305,11 @@ export default {
       this.pageTitle = "Find/Create events";
     }
 
-    console.log("selected item is:");
-    console.log(this.$store.state.selectedItem.name);
-
     firebase
       .database()
       .ref("eventList")
       .once("value", data => {
         this.eventList = Object.values(data.val());
-        console.log("eventList is:");
-        console.log(this.eventList);
       });
   }
 };
