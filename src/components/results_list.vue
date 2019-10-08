@@ -1,8 +1,6 @@
 <template>
   <div>
     <div v-for="(singleResult, index) in filterResultsList" :key="index">
-      <!--<p>resultsList is: {{resultsList}}</p>-->
-      <!--<div v-for="(singleResult, index) in resultsList" :key="index">-->
       <div v-on:click="goToDetail(singleResult)">
         <ResultTile :singleResult="singleResult" :pageID="pageID" />
       </div>
@@ -26,6 +24,7 @@
 
 <script>
 import ResultTile from "@/components/result_tile.vue";
+import firebase from "firebase";
 
 export default {
   name: "ResultsList",
@@ -69,6 +68,15 @@ export default {
       if (this.pageID === "trail_finder") {
         return this.resultsList;
       } //no filters are needed in trail_info
+
+      if (this.pageID === "private") {
+        return this.resultsList.filter(x => {
+          let participantIDs = Object.keys(x.participantsList);
+          return participantIDs.some(function(y) {
+            return y === firebase.auth().currentUser.uid;
+          });
+        });
+      }
 
       return this.resultsList.filter(x => {
         let nameCond = true;

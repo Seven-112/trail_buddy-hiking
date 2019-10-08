@@ -77,8 +77,8 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(user => {
-          console.log(user);
-          this.$store.commit("login");
+          //console.log(user);
+          this.$store.commit("login", firebase.auth().currentUser);
         })
         .catch(err => alert("Error during login: " + err));
     }

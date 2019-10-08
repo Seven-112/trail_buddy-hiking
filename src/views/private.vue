@@ -24,24 +24,24 @@
 
         <div>
           <h3>My Events</h3>
-          <div>
-            <p class="to-fix">(here goes user's event list)</p>
+          <div class="my-5">
+            <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="{}" />
           </div>
         </div>
       </div>
     </v-content>
-    <!--<button v-on:click="testStoreShow">Showing here...</button>
-    <p>{{testVar.name}}</p>-->
   </div>
 </template>
 
 <script>
 import HeaderNav from "@/components/header_nav.vue";
+import ResultsList from "@/components/results_list.vue";
 import firebase from "firebase";
 export default {
   name: "Private",
   components: {
-    HeaderNav
+    HeaderNav,
+    ResultsList
   },
 
   data() {
@@ -49,7 +49,8 @@ export default {
       pageID: "private",
       pageTitle: "My own page",
       loggedUserName: "",
-      loggedUserPhotoURL: ""
+      loggedUserPhotoURL: "",
+      eventList: []
     };
   },
 
@@ -76,8 +77,18 @@ export default {
   },
 
   created() {
-    this.loggedUserName = firebase.auth().currentUser.displayName;
-    this.loggedUserPhotoURL = firebase.auth().currentUser.photoURL;
+    this.loggedUserName = this.$store.state.loggedUser.displayName;
+    this.loggedUserPhotoURL = this.$store.state.loggedUser.photoURL;
+    this.loggedUserID = this.$store.state.loggedUser.uid;
+
+    firebase
+      .database()
+      .ref("eventList")
+      .once("value", data => {
+        console.log(data.val());
+        this.eventObject = data.val();
+        this.eventList = Object.values(data.val());
+      });
   }
 };
 </script>

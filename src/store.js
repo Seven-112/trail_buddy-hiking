@@ -7,14 +7,21 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     logged: false,
+    loggedUser: {},
     selectedItem: {},
   },
+
   mutations: {
-    login: state => {
+    login: (state, payload) => {
       state.logged = true;
+      //console.log(state.loggedUser);
+      state.loggedUser.displayName = payload.displayName;
+      state.loggedUser.photoURL = payload.photoURL;
+      state.loggedUser.uid = payload.uid;
     },
     logout: state => {
       state.logged = false;
+      //loggedUser = {};
     },
     selectItem: (state, payload) => {
       state.selectedItem = payload;

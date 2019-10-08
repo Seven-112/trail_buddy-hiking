@@ -111,6 +111,7 @@
         </div>
       </v-row>
     </v-form>
+    <p>input trail: {{searchParams.inputTrail}}</p>
   </div>
 </template>
 
@@ -149,6 +150,7 @@ export default {
     changeInput() {
       this.$emit("inputChanged", this.searchParams);
     },
+
     resetSelectedItem() {
       this.$store.state.selectedItem = {};
       this.searchParams.inputTrail = "";
