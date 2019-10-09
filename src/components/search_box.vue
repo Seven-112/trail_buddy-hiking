@@ -153,7 +153,7 @@ export default {
     resetSelectedItem() {
       this.$store.state.selectedItem = {};
       this.searchParams.inputTrail = "";
-      this.$emit("itemReset", "Browse events");
+      this.$emit("itemReset");
     }
   },
 

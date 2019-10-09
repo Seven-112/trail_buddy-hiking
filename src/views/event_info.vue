@@ -202,9 +202,11 @@ export default {
     },
 
     userParticipates() {
-      return this.listOfParticipants.some(
-        participant => participant === firebase.auth().currentUser.uid
-      );
+      if (this.$store.state.logged) {
+        return this.listOfParticipants.some(
+          participant => participant === firebase.auth().currentUser.uid
+        );
+      } else return false;
     },
 
     displayedItem() {

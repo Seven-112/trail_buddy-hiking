@@ -8,7 +8,11 @@
         <v-row class="px-3">
           <v-col class="col-12 col-sm-6 py-0">
             <div>
-              <SearchBox v-on:inputChanged="updateInput($event)" />
+              <SearchBox
+                v-on:inputChanged="updateInput($event)"
+                v-on:itemReset="pageReset"
+                :key="componentKey"
+              />
             </div>
             <div v-if="this.$store.state.selectedItem.id" class="my-3 d-flex justify-space-around">
               <span>Can't find a good event?</span>
@@ -58,7 +62,8 @@ export default {
         inputDateEnd: ""
       },
       eventList: [],
-      eventObject: {}
+      eventObject: {},
+      componentKey: 0
     };
   },
 
@@ -175,6 +180,11 @@ export default {
 
         alert("Event created!"); //Event sent to firebase!
       } else return;
+    },
+
+    pageReset() {
+      console.log("resetting" + this.componentKey);
+      this.componentKey += 1;
     }
   },
 
