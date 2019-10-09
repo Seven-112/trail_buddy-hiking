@@ -2,46 +2,54 @@
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
-      <div class="pa-3">
-        <div>
-          <h2
-            class="subtitle-2 font-weight-bold text-center my-2"
-          >Pin a spot on the map and choose a maximum distance, then push "Find Trails"</h2>
-          <div>
+      <h2
+        class="subtitle-2 font-weight-bold text-center my-2"
+      >Pin a spot on the map and choose a maximum distance, then push "Find Trails"</h2>
+      <v-container fluid>
+        <v-row class="px-3">
+          <v-col class="col-12 col-sm-6 py-0">
+            <div id="mapid" class="mb-3"></div>
+          </v-col>
+          <v-col class="col-12 col-sm-6 py-0">
             <div>
-              <p class="pa-0 ma-0 caption">Max distance:</p>
-              <v-form class="d-flex mt-0 pt-0">
-                <v-slider
-                  class="mt-0 pt-0"
-                  name="max-dist"
-                  min="5"
-                  max="200"
-                  v-model="maxDist"
-                  color="light-green darken-3"
-                  track-color="light-green lighten-3"
-                >
-                  <template v-slot:append>
-                    <p class="text-no-wrap body-2">{{milesToKm(maxDist)}} km</p>
-                  </template>
-                </v-slider>
+              <div>
                 <div>
-                  <v-btn
-                    dark
-                    class="ml-2"
-                    color="light-green darken-3"
-                    ripple
-                    rounded
-                    x-small
-                    v-on:click="getTrails"
-                  >Find Trails</v-btn>
+                  <p class="pa-0 ma-0 caption">Max distance:</p>
+                  <v-form class="d-flex mt-0 pt-0">
+                    <v-slider
+                      class="mt-0 pt-0"
+                      name="max-dist"
+                      min="5"
+                      max="200"
+                      v-model="maxDist"
+                      color="light-green darken-3"
+                      track-color="light-green lighten-3"
+                    >
+                      <template v-slot:append>
+                        <p class="text-no-wrap body-2">{{milesToKm(maxDist)}} km</p>
+                      </template>
+                    </v-slider>
+                    <div>
+                      <v-btn
+                        :dark="selectedSpot.lat!==null"
+                        class="ml-2"
+                        color="light-green darken-3"
+                        ripple
+                        rounded
+                        x-small
+                        v-on:click="getTrails"
+                        :disabled="selectedSpot.lat===null"
+                      >Find Trails</v-btn>
+                    </div>
+                  </v-form>
                 </div>
-              </v-form>
+              </div>
             </div>
-          </div>
-        </div>
-        <div id="mapid" class="mb-3"></div>
-        <ResultsList :resultsList="trailList" :pageID="pageID" />
-      </div>
+
+            <ResultsList :resultsList="trailList" :pageID="pageID" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </div>
 </template>
@@ -63,8 +71,8 @@ export default {
       pageTitle: "Find a Trail",
       maxDist: 5,
       selectedSpot: {
-        lat: 0,
-        lon: 0
+        lat: null,
+        lon: null
       },
       trailList: []
     };
@@ -130,7 +138,14 @@ export default {
 
 <style>
 #mapid {
+  width: 100%;
   height: 300px;
   z-index: 0;
+}
+
+@media screen and (orientation: landscape) {
+  #mapid {
+    height: 65vh;
+  }
 }
 </style>

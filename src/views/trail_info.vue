@@ -6,70 +6,76 @@
       <v-card class="pa-2">
         <div>
           <v-row>
-            <v-col cols="8">
-              <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
+            <v-col class="col-12 col-sm-6">
+              <v-row>
+                <v-col class="col-8 col-sm-12">
+                  <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
+                </v-col>
+                <v-col class="col-4 col-sm-12 d-flex justify-center">
+                  <v-card outlined class="trail-img">
+                    <v-img :src="displayedItem.imgSqSmall" alt="trail picture" />
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col cols="4">
-              <v-card outlined>
-                <v-img :src="displayedItem.imgSqSmall" alt="trail picture" />
-              </v-card>
+
+            <v-col class="col-12 col-sm-6">
+              <v-row>
+                <v-col cols="5" class="pb-1 px-2">
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Length:</span>
+                    {{milesToKm(displayedItem["length"])}} km
+                  </p>
+                </v-col>
+                <v-col cols="7" class="pb-1 px-2">
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Difficulty:</span>
+                    {{difficultyDisplay}}
+                  </p>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="5" class="pt-0 px-2">
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Ascent:</span>
+                    {{feetToM(displayedItem.ascent)}} m
+                  </p>
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Descent:</span>
+                    {{-feetToM(displayedItem.descent)}} m
+                  </p>
+                </v-col>
+                <v-col cols="7" class="pt-0 px-2">
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Highest point:</span>
+                    {{feetToM(displayedItem.high)}} m
+                  </p>
+                  <p class="mb-0">
+                    <span class="font-weight-bold">Lowest point:</span>
+                    {{feetToM(displayedItem.low)}} m
+                  </p>
+                </v-col>
+              </v-row>
+              <div>
+                <h3 class="mt-3">Current conditions</h3>
+                <v-row>
+                  <v-col class="col-8 col-sm-6">
+                    <p class="mb-1">{{displayedItem.conditionStatus}}</p>
+                    <p
+                      class="mb-1"
+                      v-if="displayedItem.conditionDetails"
+                    >{{displayedItem.conditionDetails}}</p>
+                    <p class="mb-1">(last updated on {{displayedItem.conditionDate}})</p>
+                  </v-col>
+                  <v-col class="col-4 col-sm-6">
+                    <p class="to-fix">(here goes weather tile)</p>
+                  </v-col>
+                </v-row>
+              </div>
             </v-col>
           </v-row>
-          <div>
-            <v-row>
-              <v-col cols="5" class="pb-1 px-2">
-                <p class="mb-0">
-                  <span class="font-weight-bold">Length:</span>
-                  {{milesToKm(displayedItem["length"])}} km
-                </p>
-              </v-col>
-              <v-col cols="7" class="pb-1 px-2">
-                <p class="mb-0">
-                  <span class="font-weight-bold">Difficulty:</span>
-                  {{difficultyDisplay}}
-                </p>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="5" class="pt-0 px-2">
-                <p class="mb-0">
-                  <span class="font-weight-bold">Ascent:</span>
-                  {{feetToM(displayedItem.ascent)}} m
-                </p>
-                <p class="mb-0">
-                  <span class="font-weight-bold">Descent:</span>
-                  {{-feetToM(displayedItem.descent)}} m
-                </p>
-              </v-col>
-              <v-col cols="7" class="pt-0 px-2">
-                <p class="mb-0">
-                  <span class="font-weight-bold">Highest point:</span>
-                  {{feetToM(displayedItem.high)}} m
-                </p>
-                <p class="mb-0">
-                  <span class="font-weight-bold">Lowest point:</span>
-                  {{feetToM(displayedItem.low)}} m
-                </p>
-              </v-col>
-            </v-row>
-          </div>
         </div>
-        <div>
-          <h3 class="mt-3">Current conditions</h3>
-          <v-row>
-            <v-col cols="8">
-              <p class="mb-1">{{displayedItem.conditionStatus}}</p>
-              <p
-                class="mb-1"
-                v-if="displayedItem.conditionDetails"
-              >{{displayedItem.conditionDetails}}</p>
-              <p class="mb-1">(last updated on {{displayedItem.conditionDate}})</p>
-            </v-col>
-            <v-col cols="4">
-              <p class="to-fix">(here goes weather tile)</p>
-            </v-col>
-          </v-row>
-        </div>
+
         <div class="text-center mt-2 mb-5">
           <a :href="displayedItem.url" target="_blank">More info on HikingProject.com</a>
         </div>
@@ -102,11 +108,7 @@ export default {
     };
   },
 
-  props: {
-    /*logged: {
-      type: Boolean
-    }*/
-  },
+  props: {},
 
   methods: {
     milesToKm(val) {
@@ -114,23 +116,7 @@ export default {
     },
     feetToM(val) {
       return (val * 0.3048).toFixed(0);
-    } /*,
-    getSingleTrail() {
-      axios
-        .get("https://www.hikingproject.com/data/get-trails-by-id", {
-          params: {
-            key: "200595378-7fe084d4861bcc0f6116d5babbf74a73",
-            ids: this.$route.params.itemID
-          }
-        })
-        .then(response => {
-          this.displayedItem = response.data.trails[0];
-          console.log(this.displayedItem);
-        })
-        .catch(function(error) {
-          alert("Error in retrieving data:" + error);
-        });
-    }*/
+    }
   },
 
   computed: {
@@ -161,4 +147,9 @@ export default {
 </script>
 
 <style>
+@media screen and (orientation: landscape) {
+  .trail-img {
+    width: 20vw;
+  }
+}
 </style>

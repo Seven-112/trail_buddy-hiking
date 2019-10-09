@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <!--<div id="nav">
+    <!--<div id="nav" class="mt-12">
       <router-link to="/">Home |</router-link>
       <router-link to="/trail_finder">TrailF |</router-link>
       <router-link to="/event_finder">EventF |</router-link>

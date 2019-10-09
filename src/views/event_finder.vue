@@ -4,24 +4,30 @@
       <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     </div>
     <v-content>
-      <div class="pa-3">
-        <div>
-          <SearchBox v-on:inputChanged="updateInput($event)" />
-        </div>
-        <div v-if="this.$store.state.selectedItem.id" class="my-3">
-          <span>Can't find an event like this?</span>
-          <v-btn
-            small
-            class="to-fix mx-2"
-            color="light-green darken-3"
-            dark
-            v-on:click="createEvent(searchParams)"
-          >Create it</v-btn>
-        </div>
-        <div class="my-5">
-          <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
-        </div>
-      </div>
+      <v-container fluid>
+        <v-row class="px-3">
+          <v-col class="col-12 col-sm-6 py-0">
+            <div>
+              <SearchBox v-on:inputChanged="updateInput($event)" />
+            </div>
+            <div v-if="this.$store.state.selectedItem.id" class="my-3 d-flex justify-space-around">
+              <span>Can't find a good event?</span>
+              <v-btn
+                small
+                class="to-fix mx-2 px-1"
+                color="light-green darken-3"
+                dark
+                v-on:click="createEvent(searchParams)"
+              >Create it</v-btn>
+            </div>
+          </v-col>
+          <v-col class="col-12 col-sm-6 py-0">
+            <div class="my-5">
+              <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </div>
 </template>
@@ -110,11 +116,7 @@ export default {
         dateRangeType: this.searchParams.inputDateType,
         startDate: this.searchParams.inputDateStart,
         endDate: this.searchParams.inputDateEnd,
-        participantsList: {
-          /*name: firebase.auth().currentUser.displayName,
-          ID: firebase.auth().currentUser.uid,
-          photoURL: firebase.auth().currentUser.photoURL*/
-        },
+        participantsList: {},
         name: this.$store.state.selectedItem["name"],
         id: this.$store.state.selectedItem.id,
         difficulty: this.$store.state.selectedItem.difficulty
@@ -153,12 +155,12 @@ export default {
         dateText;
 
       if (window.confirm(confirmText)) {
-        firebase
+        firebase //creates event
           .database()
           .ref("eventList/" + obj.eventID)
           .set(obj);
 
-        firebase
+        firebase //adds creator to participants list
           .database()
           .ref(
             "eventList/" +

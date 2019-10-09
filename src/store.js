@@ -14,7 +14,6 @@ export default new Vuex.Store({
   mutations: {
     login: (state, payload) => {
       state.logged = true;
-      //console.log(state.loggedUser);
       state.loggedUser.displayName = payload.displayName;
       state.loggedUser.photoURL = payload.photoURL;
       state.loggedUser.uid = payload.uid;

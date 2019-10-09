@@ -65,11 +65,7 @@ export default {
       pageTitle: "Homepage"
     };
   },
-  props: {
-    /*logged: {
-      type: Boolean
-    }*/
-  },
+  props: {},
   methods: {
     login() {
       var provider = new firebase.auth.GoogleAuthProvider();

@@ -5,29 +5,34 @@
     </div>
     <v-content>
       <div class="pa-3">
-        <v-card class="pa-2 mb-3">
-          <v-row>
-            <v-col cols="4">
-              <v-card class="mx-auto">
-                <v-img :src="loggedUserPhotoURL" alt="profile picture" class />
-              </v-card>
-            </v-col>
-            <v-col cols="8" class="d-flex flex-column justify-space-between">
-              <div class="align-self-center">
-                <h3>{{loggedUserName}}</h3>
-              </div>
-              <v-btn small class="ma-1" v-on:click="logout">Log out</v-btn>
-              <!--</div>-->
-            </v-col>
-          </v-row>
-        </v-card>
+        <v-row>
+          <v-col class="col-12 col-sm-6">
+            <v-card class="pa-2 mb-3">
+              <v-row>
+                <v-col cols="4">
+                  <v-card class="mx-auto">
+                    <v-img :src="loggedUserPhotoURL" alt="profile picture" class />
+                  </v-card>
+                </v-col>
+                <v-col cols="8" class="d-flex flex-column justify-space-between">
+                  <div class="align-self-center">
+                    <h3>{{loggedUserName}}</h3>
+                  </div>
+                  <v-btn small class="ma-1" v-on:click="logout">Log out</v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
 
-        <div>
-          <h3>My Events</h3>
-          <div class="my-5">
-            <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="{}" />
-          </div>
-        </div>
+          <v-col class="col-12 col-sm-6">
+            <div>
+              <h3>My Events</h3>
+              <div class="my-5">
+                <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="{}" />
+              </div>
+            </div>
+          </v-col>
+        </v-row>
       </div>
     </v-content>
   </div>
