@@ -27,6 +27,20 @@ new Vue({
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics(); npm
+    //firebase.analytics(); npm;
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log("user:");
+      console.log(user);
+      if (user) {
+        console.log("user:");
+        console.log(user);
+        store.commit("login", user);
+      } else {
+        console.log("user:");
+        console.log(user);
+        store.commit("logout");
+      }
+    });
   }
 }).$mount('#app')

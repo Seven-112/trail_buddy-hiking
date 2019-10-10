@@ -18,7 +18,7 @@
                   <div class="align-self-center">
                     <h3>{{loggedUserName}}</h3>
                   </div>
-                  <v-btn small class="ma-1" v-on:click="logout">Log out</v-btn>
+                  <v-btn small dark color="red" class="ma-1" v-on:click="logout">Log out</v-btn>
                 </v-col>
               </v-row>
             </v-card>

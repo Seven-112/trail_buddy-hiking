@@ -1,7 +1,7 @@
 <template>
   <v-card ripple hover class="pa-2 mb-2" color="light-green lighten-4">
     <div class="d-flex justify-space-between">
-      <div>
+      <div class="landscape-selector">
         <v-card-title class="subtitle-1 font-weight-bold pb-0">{{singleResult.name}}</v-card-title>
         <v-card-text
           class="py-0"
@@ -64,22 +64,13 @@ export default {
     },
 
     displayEventNumber() {
-      //A VER!!!!!!!!!!!
       let filteredList = this.wholeEventList.filter(x => {
-        console.log("x.eventID:");
-        console.log(x.id);
-        console.log("this.singleResult.id:");
-        console.log(this.singleResult.id);
         return x.id === this.singleResult.id;
       });
-
-      console.log("filteredList length:");
-      console.log(filteredList.length);
       return filteredList.length;
     },
 
     difficultyCalculator() {
-      //console.log("difficulty: " + this.singleResult.difficulty);
       switch (this.singleResult.difficulty) {
         case "dblack":
           return 6;
@@ -96,12 +87,7 @@ export default {
         default:
           return "?";
       }
-    } /*,
-
-    numberOfParticipants() {
-      //return this.listOfParticipants.length;
-      return this.$store.getters.listOfParticipants.length;
-    }*/
+    }
   },
 
   created() {
@@ -110,8 +96,6 @@ export default {
       .ref("eventList")
       .once("value", data => {
         this.wholeEventList = Object.values(data.val());
-        console.log("wholeEventList:");
-        console.log(wholeEventList);
       });
   }
 };
@@ -120,5 +104,12 @@ export default {
 <style>
 .v-card__title {
   word-break: normal !important;
+}
+
+@media screen and (orientation: landscape) {
+  .v-application .landscape-selector .subtitle-1 {
+    font-size: 0.9rem !important;
+    line-height: 1.2rem !important;
+  }
 }
 </style>

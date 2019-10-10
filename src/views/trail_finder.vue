@@ -7,15 +7,15 @@
       >Pin a spot on the map and choose a maximum distance, then push "Find Trails"</h2>
       <v-container fluid>
         <v-row class="px-3">
-          <v-col class="col-12 col-sm-6 py-0">
+          <v-col class="col-12 col-sm-7 py-0">
             <div id="mapid" class="mb-3"></div>
           </v-col>
-          <v-col class="col-12 col-sm-6 py-0">
+          <v-col class="col-12 col-sm-5 py-0">
             <div>
               <div>
                 <div>
                   <p class="pa-0 ma-0 caption">Max distance:</p>
-                  <v-form class="d-flex mt-0 pt-0">
+                  <v-form class="d-flex mt-0 pt-0 landscape-vertical">
                     <v-slider
                       class="mt-0 pt-0"
                       name="max-dist"
@@ -29,7 +29,7 @@
                         <p class="text-no-wrap body-2">{{milesToKm(maxDist)}} km</p>
                       </template>
                     </v-slider>
-                    <div>
+                    <div class="landscape-align-self-center">
                       <v-btn
                         :dark="selectedSpot.lat!==null"
                         class="ml-2"
@@ -78,11 +78,7 @@ export default {
     };
   },
 
-  props: {
-    /*logged: {
-      type: Boolean
-    }*/
-  },
+  props: {},
 
   methods: {
     milesToKm(val) {
@@ -146,6 +142,15 @@ export default {
 @media screen and (orientation: landscape) {
   #mapid {
     height: 65vh;
+  }
+
+  .landscape-vertical {
+    flex-direction: column;
+  }
+
+  .landscape-align-self-center {
+    align-self: center;
+    margin-bottom: 12px;
   }
 }
 </style>

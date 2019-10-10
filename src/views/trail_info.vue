@@ -59,16 +59,23 @@
               <div>
                 <h3 class="mt-3">Current conditions</h3>
                 <v-row>
-                  <v-col class="col-8 col-sm-6">
-                    <p class="mb-1">{{displayedItem.conditionStatus}}</p>
-                    <p
-                      class="mb-1"
-                      v-if="displayedItem.conditionDetails"
-                    >{{displayedItem.conditionDetails}}</p>
-                    <p class="mb-1">(last updated on {{displayedItem.conditionDate}})</p>
+                  <v-col class="col-7 col-sm-6">
+                    <div v-if="conditionInfoIsRecent">
+                      <p class="mb-1 font-weight-bold">{{displayedItem.conditionStatus}}</p>
+                      <p
+                        class="mb-1"
+                        v-if="displayedItem.conditionDetails"
+                      >{{displayedItem.conditionDetails}}</p>
+                      <p class="mb-1">(updated: {{conditionUpdateDate}})</p>
+                    </div>
+                    <div v-else>
+                      <p>No recent information available</p>
+                    </div>
                   </v-col>
-                  <v-col class="col-4 col-sm-6">
-                    <p class="to-fix">(here goes weather tile)</p>
+                  <v-col class="col-5 col-sm-6">
+                    <p class="mb-1 font-weight-bold">Current weather:</p>
+                    <p class="mb-0">{{currentWeather.main}}</p>
+                    <p>({{currentWeather.description}})</p>
                   </v-col>
                 </v-row>
               </div>
@@ -104,7 +111,8 @@ export default {
     return {
       pageID: "trail_finder",
       pageTitle: "Trail Info",
-      displayedItem: {}
+      displayedItem: {},
+      currentWeather: {}
     };
   },
 
@@ -116,6 +124,27 @@ export default {
     },
     feetToM(val) {
       return (val * 0.3048).toFixed(0);
+    },
+
+    getWeather() {
+      console.log("fetching weather...");
+      axios
+        .get("http://api.openweathermap.org/data/2.5/weather", {
+          params: {
+            APPID: "4563caabd11f73b9b6a35aa137d07b48",
+            lat: this.displayedItem.latitude,
+            lon: this.displayedItem.longitude
+          }
+        })
+        .then(response => {
+          //this.currentWeather = response.weather.main;
+          //console.log(response);
+          this.currentWeather = response.data.weather[0];
+          console.log(this.currentWeather);
+        })
+        .catch(function(error) {
+          alert("Error in retrieving weather data:" + error);
+        });
     }
   },
 
@@ -137,11 +166,31 @@ export default {
         default:
           return "Unknown";
       }
+    },
+
+    conditionInfoIsRecent() {
+      let now = new Date().getTime();
+      let infoDate = Date.parse(this.displayedItem.conditionDate);
+      let infoAgeMs = now - infoDate;
+
+      let minutes = 1000 * 60;
+      let hours = minutes * 60;
+      let days = hours * 24;
+      let years = days * 365;
+
+      let infoAgeDays = Math.round(infoAgeMs / days);
+
+      return infoAgeDays < 180;
+    },
+
+    conditionUpdateDate() {
+      return this.displayedItem.conditionDate.toString().slice(0, 10);
     }
   },
 
   created() {
     this.displayedItem = this.$store.state.selectedItem;
+    this.getWeather();
   }
 };
 </script>

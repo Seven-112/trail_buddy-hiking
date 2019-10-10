@@ -6,7 +6,6 @@
     <h1 class="title">{{pageTitle}}</h1>
     <div class="flex-grow-1"></div>
     <div>
-      <!--v-if="!$route.params.detail"-->
       <v-btn class="flex-shrink-1" icon v-if="pageID !== 'home'" v-on:click="navigate('/')">
         <v-icon>mdi-home</v-icon>
       </v-btn>
@@ -56,10 +55,7 @@ export default {
     },
     pageTitle: {
       type: String
-    } /*,
-    logged: {
-      type: Boolean
-    }*/
+    }
   },
   data() {
     return {};
@@ -79,7 +75,6 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(user => {
-          //console.log(user);
           this.$store.commit("login", firebase.auth().currentUser);
         })
         .catch(err => alert(err));
@@ -88,6 +83,7 @@ export default {
 
   computed: {
     logged() {
+      console.log("logged status: " + this.$store.state.logged);
       return this.$store.state.logged;
     }
   }

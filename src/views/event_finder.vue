@@ -67,11 +67,7 @@ export default {
     };
   },
 
-  props: {
-    /*logged: {
-      type: Boolean
-    }*/
-  },
+  props: {},
 
   methods: {
     updateInput(receivedInput) {

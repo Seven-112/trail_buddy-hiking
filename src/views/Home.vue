@@ -73,8 +73,8 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(user => {
-          //console.log(user);
           this.$store.commit("login", firebase.auth().currentUser);
+          this.$router.push("/private");
         })
         .catch(err => alert("Error during login: " + err));
     }

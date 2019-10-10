@@ -8,7 +8,10 @@
             <ResultTile :singleResult="displayedItem" :pageID="pageID" />
             <div class="d-flex justify-space-between">
               <div class="text-center">
-                <v-btn v-on:click="goToTrailDetail(displayedItem)">Trail info</v-btn>
+                <v-btn
+                  v-on:click="goToTrailDetail(displayedItem)"
+                  color="blue-grey lighten-5"
+                >Trail info</v-btn>
               </div>
               <div class="text-center">
                 <v-btn

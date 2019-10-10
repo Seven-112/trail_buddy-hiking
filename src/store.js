@@ -20,7 +20,7 @@ export default new Vuex.Store({
     },
     logout: state => {
       state.logged = false;
-      //loggedUser = {};
+      state.loggedUser = {};
     },
     selectItem: (state, payload) => {
       state.selectedItem = payload;
