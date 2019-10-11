@@ -6,7 +6,7 @@ import TrailInfo from './views/trail_info.vue'
 import EventFinder from './views/event_finder.vue'
 import EventInfo from './views/event_info.vue'
 import Private from './views/private.vue'
-import chatlogin from './views/chat.vue'
+
 
 Vue.use(Router)
 
