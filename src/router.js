@@ -40,10 +40,6 @@ export default new Router({
     {
       path: '/private',
       component: Private
-    },
-    {
-      path: '/chatlogin',
-      component: chatlogin
     }
   ]
 })
