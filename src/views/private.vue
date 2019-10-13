@@ -4,17 +4,17 @@
       <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     </div>
     <v-content>
-      <div class="pa-3">
+      <div class="px-3">
         <v-row>
-          <v-col class="col-12 col-sm-6">
+          <v-col class="col-12 col-sm-6 personal-info-container">
             <v-card class="pa-2 mb-3">
               <v-row>
-                <v-col cols="4">
-                  <v-card class="mx-auto">
-                    <v-img :src="loggedUserPhotoURL" alt="profile picture" class />
+                <v-col class="col-4 col-sm-12 d-flex justify-center">
+                  <v-card>
+                    <v-img :src="loggedUserPhotoURL" alt="profile picture" class="profile-img" />
                   </v-card>
                 </v-col>
-                <v-col cols="8" class="d-flex flex-column justify-space-between">
+                <v-col class="col-8col-sm-12 d-flex flex-column justify-space-between">
                   <div class="align-self-center">
                     <h3>{{loggedUserName}}</h3>
                   </div>
@@ -24,10 +24,10 @@
             </v-card>
           </v-col>
 
-          <v-col class="col-12 col-sm-6">
+          <v-col class="col-12 col-sm-6 py-0">
             <div>
-              <h3>My Events</h3>
-              <div class="my-5">
+              <h3 class="my-events mb-1 pt-3">My Events</h3>
+              <div class="my-2 personal-event-container">
                 <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="{}" />
               </div>
             </div>
@@ -59,11 +59,7 @@ export default {
     };
   },
 
-  props: {
-    /*logged: {
-      type: Boolean
-    }*/
-  },
+  props: {},
 
   methods: {
     logout() {
@@ -71,7 +67,6 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          console.log("you logged out");
           this.$store.commit("logout");
           this.$router.push("/");
         })
@@ -90,7 +85,6 @@ export default {
       .database()
       .ref("eventList")
       .once("value", data => {
-        console.log(data.val());
         this.eventObject = data.val();
         this.eventList = Object.values(data.val());
       });
@@ -99,9 +93,40 @@ export default {
 </script>
 
 <style>
-/*.profile-pic {
-  width: auto;
-  object-fit: contain;
-  margin: auto;
-}*/
+.personal-info-container {
+  height: 25vh;
+  /*border: 1px solid red;*/
+}
+
+.personal-event-container {
+  height: 57vh;
+  overflow: scroll;
+}
+
+.my-events {
+  height: 5vh;
+}
+
+@media screen and (orientation: landscape) {
+  .profile-img {
+    height: 43vh;
+  }
+
+  .profile-img div {
+    background-size: contain;
+  }
+
+  .profile-img .v-responsive__content {
+    width: 43vh !important;
+  }
+
+  .personal-event-container {
+    height: 68vh;
+    overflow: scroll;
+  }
+
+  .my-events {
+    height: 10vh;
+  }
+}
 </style>

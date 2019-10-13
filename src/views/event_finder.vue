@@ -4,7 +4,7 @@
       <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     </div>
     <v-content>
-      <v-container fluid>
+      <v-container fluid class="pt-0">
         <v-row class="px-3">
           <v-col class="col-12 col-sm-6 py-0">
             <div>
@@ -25,10 +25,8 @@
               >Create it</v-btn>
             </div>
           </v-col>
-          <v-col class="col-12 col-sm-6 py-0">
-            <div class="my-5">
-              <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
-            </div>
+          <v-col class="col-12 col-sm-6 pb-0 event-list-container">
+            <ResultsList :resultsList="eventList" :pageID="pageID" :searchParams="searchParams" />
           </v-col>
         </v-row>
       </v-container>
@@ -105,7 +103,6 @@ export default {
         alert("Please enter the name of the trail");
         return;
       }
-      console.log("checks ok, proceeding to event creation...");
       //here we set up the event for creation
       let now = new Date();
       let uniqueID = firebase.auth().currentUser.uid.toString() + now.getTime();
@@ -179,7 +176,6 @@ export default {
     },
 
     pageReset() {
-      console.log("resetting" + this.componentKey);
       this.componentKey += 1;
     }
   },
@@ -204,7 +200,6 @@ export default {
       .database()
       .ref("eventList")
       .once("value", data => {
-        console.log(data.val());
         this.eventObject = data.val();
         this.eventList = Object.values(data.val());
       });
@@ -213,4 +208,14 @@ export default {
 </script>
 
 <style>
+.event-list-container {
+  height: 58vh;
+  overflow: scroll;
+}
+
+@media screen and (orientation: landscape) {
+  .event-list-container {
+    height: 80vh;
+  }
+}
 </style>

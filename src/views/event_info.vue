@@ -2,7 +2,7 @@
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
-      <v-container fluid class="d-flex flex-column">
+      <v-container fluid class="d-flex flex-column fullheight">
         <v-row>
           <v-col class="col-12 col-sm-6 py-0">
             <ResultTile :singleResult="displayedItem" :pageID="pageID" />
@@ -32,19 +32,19 @@
                 >Join event</v-btn>
               </div>
             </div>
-            <v-expansion-panels class="my-3">
+            <v-expansion-panels class="my-3 participants-container">
               <v-expansion-panel>
-                <v-expansion-panel-header>
+                <v-expansion-panel-header class="py-0">
                   <h3>Who's coming</h3>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <div v-for="(participant, index) in displayedItem.participantsList" :key="index">
                     <v-row>
-                      <v-col cols="2">
+                      <v-col class="col-2 py-1">
                         <v-img :src="participant.photoURL" alt="profile picture" />
                       </v-col>
-                      <v-col cols="10" class="d-flex justify-space-between flex-grow-1">
-                        <p>{{participant.name}}</p>
+                      <v-col class="d-flex justify-space-between py-1">
+                        <p class="mb-0">{{participant.name}}</p>
                         <v-btn
                           v-if="participant.ID === loggedUserID"
                           small
@@ -60,30 +60,29 @@
           </v-col>
 
           <v-col class="col-12 col-sm-6 py-0">
-            <div class="d-flex flex-column flex-grow-1 main-chat-window">
-              <v-card v-if="userParticipates" class="pa-3 flex-grow-1">
-                <h3 class="mb-2">Event Chat</h3>
-                <div class="messages-window" id="chat">
-                  <div
-                    v-for="(singleMessage, index) in allMessages"
-                    :key="index"
-                    class="d-flex align-start my-1"
-                  >
-                    <img :src="singleMessage.foto" style="width: 40px;" class="mr-2" />
-                    <p>
-                      <span class="font-weight-bold">{{singleMessage.name}}:</span>
-                      {{singleMessage.text}}
-                    </p>
-                  </div>
-                  <div class="d-flex align-end">
-                    <v-text-field type="text" v-model="message" placeholder="write a message" />
-                    <v-btn icon @click="sendMessage">
-                      <v-icon class="ml-1">mdi-send</v-icon>
-                    </v-btn>
-                  </div>
+            <v-card v-if="userParticipates" class="pa-3 d-flex flex-column">
+              <h3 class="mb-2">Event Chat</h3>
+              <div class="messages-window" id="chat">
+                <div
+                  v-for="(singleMessage, index) in allMessages"
+                  :key="index"
+                  class="d-flex align-start my-1 message-box"
+                >
+                  <img :src="singleMessage.foto" style="width: 40px;" class="mr-2" />
+                  <p class="mb-0">
+                    <span class="font-weight-bold">{{singleMessage.name}}:</span>
+                    {{singleMessage.text}}
+                  </p>
                 </div>
-              </v-card>
-            </div>
+              </div>
+
+              <div class="d-flex align-end">
+                <v-text-field type="text" v-model="message" placeholder="write a message" />
+                <v-btn icon @click="sendMessage" :disabled="message === ''">
+                  <v-icon class="ml-1" color="light-green darken-3">mdi-send</v-icon>
+                </v-btn>
+              </div>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -118,7 +117,6 @@ export default {
 
   methods: {
     goToTrailDetail(oneResult) {
-      //localStorage.storedResult = JSON.stringify(oneResult);
       this.$router.push("/trail_finder/detail/" + oneResult.id);
     },
 
@@ -235,21 +233,32 @@ export default {
 </script>
 
 <style>
-.underlined {
-  text-decoration: underline;
-}
 .messages-window {
   overflow: scroll;
-  flex-grow: 1;
-  max-height: 100%;
-  height: 45vh;
+  height: 39vh;
 }
 
-.main-chat-window {
-  flex-grow: 1;
+.message-box {
+  word-break: break-word;
+}
+.fullheight {
+  height: 91vh;
 }
 
-.border-red {
-  border: 1px solid red;
+@media screen and (orientation: landscape) {
+  .fullheight {
+    height: 84vh;
+  }
+
+  .messages-window {
+    height: 46vh;
+  }
+
+  .participants-container {
+    max-height: 43vh;
+    overflow: scroll;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
 }
 </style>

@@ -6,7 +6,6 @@ import vuetify from './plugins/vuetify';
 import '@babel/polyfill'
 import firebase from "firebase";
 
-
 Vue.config.productionTip = false
 
 new Vue({
@@ -30,17 +29,21 @@ new Vue({
     //firebase.analytics(); npm;
 
     firebase.auth().onAuthStateChanged(function (user) {
-      console.log("user:");
-      console.log(user);
       if (user) {
-        console.log("user:");
-        console.log(user);
         store.commit("login", user);
       } else {
-        console.log("user:");
-        console.log(user);
         store.commit("logout");
       }
     });
+
+    /*this.$router.beforeEach((to, from, next) => {
+      console.log("guard triggered");
+      console.log(to.path);
+      if (to.path === "/private" && !this.$store.state.logged) {
+        console.log("navigation blocked");
+        //next(false);
+        next()
+      } else next();
+    })*/
   }
 }).$mount('#app')

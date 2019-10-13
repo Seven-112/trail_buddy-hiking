@@ -90,8 +90,9 @@ export default {
 <style>
 .home-container {
   background-image: url("../assets/hiking_sm_02.jpg");
-  background-size: auto 100vh;
+  background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   height: 100vh;
 }
 .upper-box {

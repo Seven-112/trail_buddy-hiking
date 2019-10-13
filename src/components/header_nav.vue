@@ -6,13 +6,13 @@
     <h1 class="title">{{pageTitle}}</h1>
     <div class="flex-grow-1"></div>
     <div>
-      <v-btn class="flex-shrink-1" icon v-if="pageID !== 'home'" v-on:click="navigate('/')">
+      <!--<v-btn class="flex-shrink-1" icon v-if="pageID !== 'home'" v-on:click="navigate('/')">
         <v-icon>mdi-home</v-icon>
-      </v-btn>
+      </v-btn>-->
       <v-btn
         class="flex-shrink-1"
         icon
-        v-if="pageID !== 'trail_finder'"
+        :disabled="pageID === 'trail_finder'"
         v-on:click="navigate('/trail_finder')"
       >
         <v-icon>mdi-map</v-icon>
@@ -20,7 +20,7 @@
       <v-btn
         class="flex-shrink-1"
         icon
-        v-if="pageID !== 'event_finder'"
+        :disabled="pageID === 'event_finder'"
         v-on:click="navigate('/event_finder')"
       >
         <v-icon>mdi-calendar-month</v-icon>
@@ -28,17 +28,13 @@
       <v-btn
         class="flex-shrink-1"
         icon
-        v-if="pageID !== 'private' && logged === true"
+        v-if="logged === true"
+        :disabled="pageID === 'private'"
         v-on:click="navigate('/private')"
       >
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
-      <v-btn
-        class="flex-shrink-1"
-        icon
-        v-if="pageID !== 'private' && logged === false"
-        v-on:click="login"
-      >
+      <v-btn class="flex-shrink-1" icon v-else v-on:click="login">
         <v-icon>mdi-account-arrow-left</v-icon>
       </v-btn>
     </div>
@@ -67,6 +63,7 @@ export default {
     },
     navigate(path) {
       this.$store.state.selectedItem = {}; //resets selected item in the store
+      this.$store.state.storedTrails = []; //resets stored trail list in the store
       this.$router.push(path);
     },
     login() {
@@ -83,7 +80,6 @@ export default {
 
   computed: {
     logged() {
-      console.log("logged status: " + this.$store.state.logged);
       return this.$store.state.logged;
     }
   }
@@ -91,7 +87,20 @@ export default {
 </script>
 
 <style>
-.v-toolbar__content {
-  padding: 4px 12px;
+.v-sheet .v-toolbar__content {
+  padding: 4px 12px !important;
+  height: 8vh !important;
+}
+header {
+  height: 8vh !important;
+}
+
+@media screen and (orientation: landscape) {
+  .v-sheet .v-toolbar__content {
+    height: 12vh !important;
+  }
+  header {
+    height: 12vh !important;
+  }
 }
 </style>

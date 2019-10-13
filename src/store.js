@@ -9,6 +9,7 @@ export default new Vuex.Store({
     logged: false,
     loggedUser: {},
     selectedItem: {},
+    storedTrails: []
   },
 
   mutations: {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     selectItem: (state, payload) => {
       state.selectedItem = payload;
     },
+    storeTrails: (state, payload) => {
+      state.storedTrails = payload;
+    },
     addTrailInfo: (state, payload) => {
       for (let key in payload) {
         state.selectedItem[key] = payload[key];
@@ -35,6 +39,10 @@ export default new Vuex.Store({
   actions: {
     changeSelectedItem: (context, payload) => {
       context.commit("selectItem", payload);
+    },
+
+    storeTrailSearch: (context, payload) => {
+      context.commit("storeTrails", payload);
     },
 
     addTrailInfo: context => {
@@ -49,7 +57,6 @@ export default new Vuex.Store({
           context.commit("addTrailInfo", response.data.trails[0]);
         })
         .catch(error => {
-          //console.log("It did not work!");
           alert("Error in retrieving data:" + error);
         });
 

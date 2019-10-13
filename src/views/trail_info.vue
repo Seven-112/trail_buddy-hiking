@@ -3,25 +3,30 @@
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content class="px-3 pb-6">
       <ResultTile :singleResult="displayedItem" :pageID="pageID" />
-      <v-card class="pa-2">
+      <v-card class="px-2 py-3">
         <div>
           <v-row>
-            <v-col class="col-12 col-sm-6">
+            <v-col class="col-12 col-sm-5 py-0">
               <v-row>
                 <v-col class="col-8 col-sm-12">
                   <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
                 </v-col>
                 <v-col class="col-4 col-sm-12 d-flex justify-center">
-                  <v-card outlined class="trail-img">
-                    <v-img :src="displayedItem.imgSqSmall" alt="trail picture" />
+                  <v-card :outlined="displayedItem.imgSqSmall !== ''" class="trail-img">
+                    <v-img
+                      v-if="displayedItem.imgSqSmall !== ''"
+                      :src="displayedItem.imgSqSmall"
+                      alt="trail picture"
+                    />
+                    <v-img v-else src="../assets/noimg100.png" alt="mountain" />
                   </v-card>
                 </v-col>
               </v-row>
             </v-col>
 
-            <v-col class="col-12 col-sm-6">
+            <v-col class="col-12 col-sm-7 mx-0 py-0">
               <v-row>
-                <v-col cols="5" class="pb-1 px-2">
+                <v-col cols="5" class="pb-1 px-3">
                   <p class="mb-0">
                     <span class="font-weight-bold">Length:</span>
                     {{milesToKm(displayedItem["length"])}} km
@@ -35,7 +40,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="5" class="pt-0 px-2">
+                <v-col cols="5" class="pt-0 px-3">
                   <p class="mb-0">
                     <span class="font-weight-bold">Ascent:</span>
                     {{feetToM(displayedItem.ascent)}} m
@@ -59,7 +64,7 @@
               <div>
                 <h3 class="mt-3">Current conditions</h3>
                 <v-row>
-                  <v-col class="col-7 col-sm-6">
+                  <v-col class="col-7 col-sm-6 pb-0">
                     <div v-if="conditionInfoIsRecent">
                       <p class="mb-1 font-weight-bold">{{displayedItem.conditionStatus}}</p>
                       <p
@@ -69,13 +74,13 @@
                       <p class="mb-1">(updated: {{conditionUpdateDate}})</p>
                     </div>
                     <div v-else>
-                      <p>No recent information available</p>
+                      <p class="mb-0">No recent information available</p>
                     </div>
                   </v-col>
-                  <v-col class="col-5 col-sm-6">
-                    <p class="mb-1 font-weight-bold">Current weather:</p>
+                  <v-col class="col-5 col-sm-6 pb-0">
+                    <p class="mb-1 font-weight-bold">Weather:</p>
                     <p class="mb-0">{{currentWeather.main}}</p>
-                    <p>({{currentWeather.description}})</p>
+                    <p class="mb-0">({{currentWeather.description}})</p>
                   </v-col>
                 </v-row>
               </div>
@@ -83,7 +88,7 @@
           </v-row>
         </div>
 
-        <div class="text-center mt-2 mb-5">
+        <div class="text-center mt-3 mb-5">
           <a :href="displayedItem.url" target="_blank">More info on HikingProject.com</a>
         </div>
         <div class="text-center">
@@ -127,7 +132,6 @@ export default {
     },
 
     getWeather() {
-      console.log("fetching weather...");
       axios
         .get("http://api.openweathermap.org/data/2.5/weather", {
           params: {
@@ -137,10 +141,7 @@ export default {
           }
         })
         .then(response => {
-          //this.currentWeather = response.weather.main;
-          //console.log(response);
           this.currentWeather = response.data.weather[0];
-          console.log(this.currentWeather);
         })
         .catch(function(error) {
           alert("Error in retrieving weather data:" + error);

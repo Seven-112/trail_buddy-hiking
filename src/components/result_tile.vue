@@ -16,7 +16,7 @@
         </div>
         <div v-if="pageID==='trail_finder'">
           <v-icon>mdi-calendar-text</v-icon>
-          <span>{{displayEventNumber}}</span>
+          {{displayEventNumber}}
         </div>
         <div v-if="pageID==='event_finder' || pageID==='private'">
           <v-icon>mdi-account-group</v-icon>

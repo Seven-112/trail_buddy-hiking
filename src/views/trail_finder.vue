@@ -2,15 +2,17 @@
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
-      <h2
-        class="subtitle-2 font-weight-bold text-center my-2"
-      >Pin a spot on the map and choose a maximum distance, then push "Find Trails"</h2>
-      <v-container fluid>
+      <v-snackbar v-model="snackbar" timeout="8000">
+        <span class="py-0 px-3">Pin a spot on the map and choose a maximum distance</span>
+        <v-btn color="light-green lighten-1" text @click="snackbar = false" class="ml-2">Close</v-btn>
+      </v-snackbar>
+
+      <v-container fluid class="py-2">
         <v-row class="px-3">
-          <v-col class="col-12 col-sm-7 py-0">
-            <div id="mapid" class="mb-3"></div>
+          <v-col class="col-12 col-sm-6 py-0">
+            <div id="mapid"></div>
           </v-col>
-          <v-col class="col-12 col-sm-5 py-0">
+          <v-col class="col-12 col-sm-6 pt-1 pb-0">
             <div>
               <div>
                 <div>
@@ -45,8 +47,9 @@
                 </div>
               </div>
             </div>
-
-            <ResultsList :resultsList="trailList" :pageID="pageID" />
+            <div class="trail-list-container">
+              <ResultsList :resultsList="trailList" :pageID="pageID" />
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -74,7 +77,8 @@ export default {
         lat: null,
         lon: null
       },
-      trailList: []
+      trailList: [],
+      snackbar: true
     };
   },
 
@@ -97,11 +101,16 @@ export default {
         })
         .then(response => {
           this.trailList = response.data.trails;
-          console.log(this.trailList);
         })
         .catch(function(error) {
           alert("Error in retrieving data:" + error);
         });
+    }
+  },
+
+  created() {
+    if (this.$store.state.storedTrails.length !== 0) {
+      this.trailList = this.$store.state.storedTrails;
     }
   },
 
@@ -135,22 +144,28 @@ export default {
 <style>
 #mapid {
   width: 100%;
-  height: 300px;
+  height: 40vh;
   z-index: 0;
+}
+
+.trail-list-container {
+  height: 37vh;
+  overflow: scroll;
 }
 
 @media screen and (orientation: landscape) {
   #mapid {
-    height: 65vh;
-  }
-
-  .landscape-vertical {
-    flex-direction: column;
+    height: 79vh;
   }
 
   .landscape-align-self-center {
     align-self: center;
     margin-bottom: 12px;
+  }
+
+  .trail-list-container {
+    height: 60vh;
+    overflow: scroll;
   }
 }
 </style>

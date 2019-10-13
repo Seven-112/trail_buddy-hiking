@@ -16,7 +16,7 @@
         color="warning"
         text
       >
-        <v-icon color="warning" class="mr-2">mdi-map-marker-alert</v-icon>Nothing found!
+        <v-icon color="warning" class="mr-2">mdi-map-marker-alert</v-icon>Nothing to show!
       </v-alert>
     </div>
   </div>
@@ -53,6 +53,10 @@ export default {
   methods: {
     goToDetail(oneResult) {
       this.$store.dispatch("changeSelectedItem", oneResult);
+
+      if (this.pageID === "trail_finder") {
+        this.$store.dispatch("storeTrailSearch", this.resultsList);
+      }
 
       //following lines direct to either trail_info or event_info, with correct ID for fetch
       if (oneResult.eventID) {
