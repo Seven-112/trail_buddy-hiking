@@ -1,32 +1,18 @@
 <template>
   <v-app-bar app fixed dark class="light-green darken-3 pb-0">
-    <v-btn class="flex-shrink-1" icon v-if="$route.params.detail" v-on:click="goBack">
+    <v-btn icon v-if="$route.params.detail" v-on:click="goBack">
       <v-icon>mdi-arrow-left-bold-circle</v-icon>
     </v-btn>
     <h1 class="title">{{pageTitle}}</h1>
     <div class="flex-grow-1"></div>
     <div>
-      <!--<v-btn class="flex-shrink-1" icon v-if="pageID !== 'home'" v-on:click="navigate('/')">
-        <v-icon>mdi-home</v-icon>
-      </v-btn>-->
-      <v-btn
-        class="flex-shrink-1"
-        icon
-        :disabled="pageID === 'trail_finder'"
-        v-on:click="navigate('/trail_finder')"
-      >
+      <v-btn icon :disabled="pageID === 'trail_finder'" v-on:click="navigate('/trail_finder')">
         <v-icon>mdi-map</v-icon>
       </v-btn>
-      <v-btn
-        class="flex-shrink-1"
-        icon
-        :disabled="pageID === 'event_finder'"
-        v-on:click="navigate('/event_finder')"
-      >
-        <v-icon>mdi-calendar-month</v-icon>
+      <v-btn icon :disabled="pageID === 'event_finder'" v-on:click="navigate('/event_finder')">
+        <v-icon>mdi-calendar-range</v-icon>
       </v-btn>
       <v-btn
-        class="flex-shrink-1"
         icon
         v-if="logged === true"
         :disabled="pageID === 'private'"
@@ -34,7 +20,7 @@
       >
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
-      <v-btn class="flex-shrink-1" icon v-else v-on:click="login">
+      <v-btn icon v-else v-on:click="login">
         <v-icon>mdi-account-arrow-left</v-icon>
       </v-btn>
     </div>
