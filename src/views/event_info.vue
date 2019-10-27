@@ -83,6 +83,19 @@
                 </v-btn>
               </div>
             </v-card>
+            <v-alert
+              v-else
+              dark
+              dense
+              class="text-center"
+              elevation="5"
+              border="left"
+              color-border
+              color="warning"
+              text
+            >
+              <v-icon color="warning" class="mr-2">mdi-map-marker-alert</v-icon>Only participants can view the event chat
+            </v-alert>
           </v-col>
         </v-row>
       </v-container>

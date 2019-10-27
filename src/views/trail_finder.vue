@@ -12,7 +12,7 @@
           <v-col class="col-12 col-sm-6 py-0">
             <div id="mapid"></div>
           </v-col>
-          <v-col class="col-12 col-sm-6 pt-1 pb-0">
+          <v-col class="col-12 col-sm-6 pt-1 pb-0 d-flex flex-column justify-space-between">
             <div>
               <div>
                 <div>
@@ -150,7 +150,7 @@ export default {
 
 .trail-list-container {
   height: 37vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 @media screen and (orientation: landscape) {
@@ -165,7 +165,7 @@ export default {
 
   .trail-list-container {
     height: 60vh;
-    overflow: scroll;
+    overflow-y: auto;
   }
 }
 </style>

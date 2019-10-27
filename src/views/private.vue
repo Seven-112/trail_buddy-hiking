@@ -95,12 +95,11 @@ export default {
 <style>
 .personal-info-container {
   height: 25vh;
-  /*border: 1px solid red;*/
 }
 
 .personal-event-container {
   height: 57vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .my-events {
@@ -122,7 +121,7 @@ export default {
 
   .personal-event-container {
     height: 68vh;
-    overflow: scroll;
+    overflow-y: scroll;
   }
 
   .my-events {

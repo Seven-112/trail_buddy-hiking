@@ -210,7 +210,7 @@ export default {
 <style>
 .event-list-container {
   height: 58vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 @media screen and (orientation: landscape) {
