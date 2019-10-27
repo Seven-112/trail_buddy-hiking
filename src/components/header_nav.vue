@@ -10,7 +10,7 @@
         <v-icon>mdi-map</v-icon>
       </v-btn>
       <v-btn icon :disabled="pageID === 'event_finder'" v-on:click="navigate('/event_finder')">
-        <v-icon>mdi-calendar-range</v-icon>
+        <v-icon>mdi-calendar-month</v-icon>
       </v-btn>
       <v-btn
         icon
