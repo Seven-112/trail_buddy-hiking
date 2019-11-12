@@ -133,7 +133,7 @@ export default {
 
     getWeather() {
       axios
-        .get("http://api.openweathermap.org/data/2.5/weather", {
+        .get("https://api.openweathermap.org/data/2.5/weather", {
           params: {
             APPID: "4563caabd11f73b9b6a35aa137d07b48",
             lat: this.displayedItem.latitude,
