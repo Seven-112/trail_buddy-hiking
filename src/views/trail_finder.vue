@@ -22,8 +22,9 @@
                       class="mt-0 pt-0"
                       name="max-dist"
                       min="5"
-                      max="200"
+                      max="62"
                       v-model="maxDist"
+                      v-on:change="drawCircle(maxDist)"
                       color="light-green darken-3"
                       track-color="light-green lighten-3"
                     >
@@ -78,7 +79,10 @@ export default {
         lon: null
       },
       trailList: [],
-      snackbar: true
+      snackbar: true,
+      mymap: "",
+      marker: "",
+      circle: ""
     };
   },
 
@@ -105,6 +109,18 @@ export default {
         .catch(function(error) {
           alert("Error in retrieving data:" + error);
         });
+    },
+
+    drawCircle(radius) {
+      console.log("Circle with radius" + this.maxDist);
+      if (this.circle !== "") {
+        this.mymap.removeLayer(this.circle);
+      } else {
+        console.log("nocircle");
+      }
+      this.circle = L.circle([this.selectedSpot.lat, this.selectedSpot.lon], {
+        radius: this.milesToKm(this.maxDist) * 1000
+      }).addTo(this.mymap);
     }
   },
 
@@ -115,8 +131,8 @@ export default {
   },
 
   mounted() {
-    var mymap = L.map("mapid").setView([41.3851, 2.1734], 10);
-    var marker;
+    this.mymap = L.map("mapid").setView([41.3851, 2.1734], 8);
+    //var marker;
     L.tileLayer(
       "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}",
       {
@@ -127,15 +143,19 @@ export default {
         accessToken:
           "pk.eyJ1IjoicGludGVjMTAiLCJhIjoiY2sxNjdobDh6MHp5aDNvdGdubWYxdWwxOCJ9.JjH40Kq67-JXH8ySTIEtGw"
       }
-    ).addTo(mymap);
-    mymap.on("click", event => {
+    ).addTo(this.mymap);
+    this.mymap.on("click", event => {
       //console.log("map clicked at " + event.latlng);
-      if (marker) {
-        mymap.removeLayer(marker);
+      if (this.marker !== "") {
+        this.mymap.removeLayer(this.marker);
       }
-      marker = L.marker(event.latlng).addTo(mymap);
+      if (this.circle !== "") {
+        this.mymap.removeLayer(this.circle);
+      }
+      this.marker = L.marker(event.latlng).addTo(this.mymap);
       this.selectedSpot.lon = event.latlng.lng;
       this.selectedSpot.lat = event.latlng.lat;
+      this.drawCircle(this.maxDist);
     });
   }
 };
