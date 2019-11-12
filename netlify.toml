@@ -1,5 +1,5 @@
 [[redirects]]
-from = "https://trail-buddy.netlify.com/*/api.openweathermap.org/*"
+from = "https://trail-buddy.netlify.com/trail_finder/detail/*/api.openweathermap.org/*"
 to = "https://api.openweathermap.org/:splat"
 status = 200
 force = true
