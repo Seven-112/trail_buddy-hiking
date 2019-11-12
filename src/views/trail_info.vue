@@ -12,10 +12,11 @@
                   <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
                 </v-col>
                 <v-col class="col-4 col-sm-12 d-flex justify-center">
-                  <v-card :outlined="displayedItem.imgSqSmall !== ''" class="trail-img">
+                  <!--<v-card :outlined="displayedItem.imgSqSmall !== ''" class="trail-img">-->
+                  <v-card :outlined="displayedItem.imgMedium !== ''" class="trail-img">
                     <v-img
-                      v-if="displayedItem.imgSqSmall !== ''"
-                      :src="displayedItem.imgSqSmall"
+                      v-if="displayedItem.imgMedium !== ''"
+                      :src="displayedItem.imgMedium"
                       alt="trail picture"
                     />
                     <v-img v-else src="../assets/noimg100.png" alt="mountain" />

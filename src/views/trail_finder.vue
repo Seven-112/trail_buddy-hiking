@@ -2,7 +2,7 @@
   <div>
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
-      <v-snackbar v-model="snackbar" timeout="8000">
+      <v-snackbar v-model="snackbar" :timeout="timeout">
         <span class="py-0 px-3">Pin a spot on the map and choose a maximum distance</span>
         <v-btn color="light-green lighten-1" text @click="snackbar = false" class="ml-2">Close</v-btn>
       </v-snackbar>
@@ -24,7 +24,6 @@
                       min="5"
                       max="62"
                       v-model="maxDist"
-                      v-on:change="drawCircle(maxDist)"
                       color="light-green darken-3"
                       track-color="light-green lighten-3"
                     >
@@ -80,14 +79,20 @@ export default {
       },
       trailList: [],
       snackbar: true,
+      timeout: 8000,
       mymap: "",
       marker: "",
       circle: ""
     };
   },
 
-  props: {},
-
+  watch: {
+    maxDist: function(newMaxDist) {
+      if (this.circle !== "") {
+        this.drawCircle(newMaxDist);
+      }
+    }
+  },
   methods: {
     milesToKm(val) {
       return (val * 1.60934).toFixed(1);
@@ -145,7 +150,6 @@ export default {
       }
     ).addTo(this.mymap);
     this.mymap.on("click", event => {
-      //console.log("map clicked at " + event.latlng);
       if (this.marker !== "") {
         this.mymap.removeLayer(this.marker);
       }
