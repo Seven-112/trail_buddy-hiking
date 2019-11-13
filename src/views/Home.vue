@@ -101,4 +101,10 @@ export default {
 .lower-box {
   height: 45vh;
 }
+
+@media screen and (min-width: 992px) {
+  .home-container {
+    background-image: url("../assets/hiking_lg_02.jpg");
+  }
+}
 </style>

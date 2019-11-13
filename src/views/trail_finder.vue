@@ -21,8 +21,8 @@
                     <v-slider
                       class="mt-0 pt-0"
                       name="max-dist"
-                      min="5"
-                      max="62"
+                      min="6"
+                      max="93"
                       v-model="maxDist"
                       color="light-green darken-3"
                       track-color="light-green lighten-3"
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     milesToKm(val) {
-      return (val * 1.60934).toFixed(1);
+      return (val * 1.60934).toFixed(0);
     },
 
     getTrails() {
@@ -136,7 +136,7 @@ export default {
   },
 
   mounted() {
-    this.mymap = L.map("mapid").setView([41.3851, 2.1734], 8);
+    this.mymap = L.map("mapid").setView([41.3851, 2.1734], 6);
     //var marker;
     L.tileLayer(
       "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}",

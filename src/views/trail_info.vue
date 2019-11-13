@@ -12,11 +12,12 @@
                   <p class="font-weight-light font-italic mb-0">"{{displayedItem.summary}}"</p>
                 </v-col>
                 <v-col class="col-4 col-sm-12 d-flex justify-center">
-                  <!--<v-card :outlined="displayedItem.imgSqSmall !== ''" class="trail-img">-->
-                  <v-card :outlined="displayedItem.imgMedium !== ''" class="trail-img">
+                  <!--<v-card :outlined=" !== ''" class="trail-img">-->
+                  <!--<v-card :outlined="displayedItem.imgMedium !== ''" class="trail-img">-->
+                  <v-card :outlined="getResponsiveImage !== ''" class="trail-img">
                     <v-img
-                      v-if="displayedItem.imgMedium !== ''"
-                      :src="displayedItem.imgMedium"
+                      v-if="getResponsiveImage !== ''"
+                      :src="getResponsiveImage"
                       alt="trail picture"
                     />
                     <v-img v-else src="../assets/noimg100.png" alt="mountain" />
@@ -187,6 +188,14 @@ export default {
 
     conditionUpdateDate() {
       return this.displayedItem.conditionDate.toString().slice(0, 10);
+    },
+
+    getResponsiveImage() {
+      if (window.outerWidth < 992 && this.displayedItem.imgSqSmall !== "") {
+        return this.displayedItem.imgSqSmall;
+      } else if (this.displayedItem.imgMedium !== "") {
+        return this.displayedItem.imgMedium;
+      } else return "";
     }
   },
 
