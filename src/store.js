@@ -9,7 +9,9 @@ export default new Vuex.Store({
     logged: false,
     loggedUser: {},
     selectedItem: {},
-    storedTrails: []
+    storedTrails: [],
+    storedSpot: {},
+    storedMaxDist: 0
   },
 
   mutations: {
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     storeTrails: (state, payload) => {
       state.storedTrails = payload;
     },
+    storeSpot: (state, payload) => {
+      state.storedSpot = payload;
+    },
+    storeMaxDist: (state, payload) => {
+      state.storedMaxDist = payload;
+    },
     addTrailInfo: (state, payload) => {
       for (let key in payload) {
         state.selectedItem[key] = payload[key];
@@ -43,6 +51,14 @@ export default new Vuex.Store({
 
     storeTrailSearch: (context, payload) => {
       context.commit("storeTrails", payload);
+    },
+
+    storeMapSpot: (context, payload) => {
+      context.commit("storeSpot", payload);
+    },
+
+    storeMaxDist: (context, payload) => {
+      context.commit("storeMaxDist", payload);
     },
 
     addTrailInfo: context => {

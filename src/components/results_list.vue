@@ -47,6 +47,12 @@ export default {
     },
     searchParams: {
       type: Object
+    },
+    searchSpot: {
+      type: Object
+    },
+    maxDist: {
+      type: Number
     }
   },
 
@@ -56,6 +62,8 @@ export default {
 
       if (this.pageID === "trail_finder") {
         this.$store.dispatch("storeTrailSearch", this.resultsList);
+        this.$store.dispatch("storeMapSpot", this.searchSpot);
+        this.$store.dispatch("storeMaxDist", this.maxDist);
       }
 
       //following lines direct to either trail_info or event_info, with correct ID for fetch

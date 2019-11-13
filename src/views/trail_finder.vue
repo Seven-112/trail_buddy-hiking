@@ -48,7 +48,12 @@
               </div>
             </div>
             <div class="trail-list-container">
-              <ResultsList :resultsList="trailList" :pageID="pageID" />
+              <ResultsList
+                :resultsList="trailList"
+                :pageID="pageID"
+                :searchSpot="selectedSpot"
+                :maxDist="maxDist"
+              />
             </div>
           </v-col>
         </v-row>
@@ -72,10 +77,10 @@ export default {
     return {
       pageID: "trail_finder",
       pageTitle: "Find a Trail",
-      maxDist: 5,
+      maxDist: 6,
       selectedSpot: {
-        lat: null,
-        lon: null
+        lat: 41.3851,
+        lon: 2.1734
       },
       trailList: [],
       snackbar: true,
@@ -117,11 +122,8 @@ export default {
     },
 
     drawCircle(radius) {
-      console.log("Circle with radius" + this.maxDist);
       if (this.circle !== "") {
         this.mymap.removeLayer(this.circle);
-      } else {
-        console.log("nocircle");
       }
       this.circle = L.circle([this.selectedSpot.lat, this.selectedSpot.lon], {
         radius: this.milesToKm(this.maxDist) * 1000
@@ -133,11 +135,20 @@ export default {
     if (this.$store.state.storedTrails.length !== 0) {
       this.trailList = this.$store.state.storedTrails;
     }
+    if (this.$store.state.storedSpot.lat && this.$store.state.storedSpot.lon) {
+      this.selectedSpot.lat = this.$store.state.storedSpot.lat;
+      this.selectedSpot.lon = this.$store.state.storedSpot.lon;
+    }
+    if (this.$store.state.storedMaxDist !== 0) {
+      this.maxDist = this.$store.state.storedMaxDist;
+    }
   },
 
   mounted() {
-    this.mymap = L.map("mapid").setView([41.3851, 2.1734], 6);
-    //var marker;
+    this.mymap = L.map("mapid").setView(
+      [this.selectedSpot.lat, this.selectedSpot.lon],
+      6
+    );
     L.tileLayer(
       "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}",
       {
@@ -149,6 +160,19 @@ export default {
           "pk.eyJ1IjoicGludGVjMTAiLCJhIjoiY2sxNjdobDh6MHp5aDNvdGdubWYxdWwxOCJ9.JjH40Kq67-JXH8ySTIEtGw"
       }
     ).addTo(this.mymap);
+
+    if (this.marker !== "") {
+      this.mymap.removeLayer(this.marker);
+    }
+    if (this.circle !== "") {
+      this.mymap.removeLayer(this.circle);
+    }
+    this.marker = L.marker([
+      this.selectedSpot.lat,
+      this.selectedSpot.lon
+    ]).addTo(this.mymap);
+    this.drawCircle(this.maxDist);
+
     this.mymap.on("click", event => {
       if (this.marker !== "") {
         this.mymap.removeLayer(this.marker);
