@@ -10,11 +10,11 @@
             placeholder="e.g. Great Lake Trail"
             v-model="searchParams.inputTrail"
             v-on:keyup="changeInput"
-            :disabled="this.$store.state.selectedItem.id"
+            :disabled="Object.keys(this.$store.state.selectedItem).length !== 0"
           />
 
           <v-btn
-            v-if="this.$store.state.selectedItem.id"
+            v-if="Object.keys(this.$store.state.selectedItem).length !== 0"
             small
             class="ml-2"
             v-on:click="resetSelectedItem"

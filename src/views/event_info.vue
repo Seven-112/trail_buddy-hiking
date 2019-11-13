@@ -191,8 +191,10 @@ export default {
     },
 
     scrollToEnd: function() {
-      var container = document.getElementById("chat");
-      container.scrollTop = container.scrollHeight;
+      if (this.userParticipates) {
+        var container = document.getElementById("chat");
+        container.scrollTop = container.scrollHeight;
+      }
     }
   },
 
