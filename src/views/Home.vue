@@ -18,7 +18,21 @@
           >
             <v-icon x-large>mdi-map</v-icon>
           </v-btn>
-          <h2 class="text-center white--text headline py-3">Find a trail</h2>
+          <h2 class="text-center white--text headline py-3">Trails</h2>
+        </div>
+
+        <div class="d-flex flex-column align-center">
+          <v-btn
+            dark
+            fab
+            color="amber darken-3"
+            x-large
+            v-if="pageID !== 'trail_finder'"
+            to="/event_finder"
+          >
+            <v-icon x-large>mdi-calendar-clock</v-icon>
+          </v-btn>
+          <h2 class="text-center white--text headline py-3">Events</h2>
         </div>
 
         <div v-if="logged === false" class="d-flex flex-column align-center">
@@ -46,7 +60,7 @@
           >
             <v-icon x-large>mdi-account</v-icon>
           </v-btn>
-          <h2 class="text-center white--text headline py-3">Private Area</h2>
+          <h2 class="text-center white--text headline py-3">You</h2>
         </div>
       </div>
     </v-content>
