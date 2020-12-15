@@ -3,8 +3,16 @@
     <HeaderNav :pageID="pageID" :pageTitle="pageTitle" />
     <v-content>
       <v-snackbar v-model="snackbar" :timeout="timeout">
-        <span class="py-0 px-3">Pin a spot on the map and choose a maximum distance</span>
-        <v-btn color="light-green lighten-1" text @click="snackbar = false" class="ml-2">Close</v-btn>
+        <span class="py-0 px-3"
+          >Pin a spot on the map and choose a maximum distance</span
+        >
+        <v-btn
+          color="light-green lighten-1"
+          text
+          @click="snackbar = false"
+          class="ml-2"
+          >Close</v-btn
+        >
       </v-snackbar>
 
       <v-container fluid class="py-2">
@@ -12,7 +20,9 @@
           <v-col class="col-12 col-sm-6 py-0">
             <div id="mapid"></div>
           </v-col>
-          <v-col class="col-12 col-sm-6 pt-1 pb-0 d-flex flex-column justify-space-between">
+          <v-col
+            class="col-12 col-sm-6 pt-1 pb-0 d-flex flex-column justify-space-between"
+          >
             <div>
               <div>
                 <div>
@@ -28,20 +38,23 @@
                       track-color="light-green lighten-3"
                     >
                       <template v-slot:append>
-                        <p class="text-no-wrap body-2">{{milesToKm(maxDist)}} km</p>
+                        <p class="text-no-wrap body-2">
+                          {{ milesToKm(maxDist) }} km
+                        </p>
                       </template>
                     </v-slider>
                     <div class="landscape-align-self-center">
                       <v-btn
-                        :dark="selectedSpot.lat!==null"
+                        :dark="selectedSpot.lat !== null"
                         class="ml-2"
                         color="light-green darken-3"
                         ripple
                         rounded
                         x-small
                         v-on:click="getTrails"
-                        :disabled="selectedSpot.lat===null"
-                      >Find Trails</v-btn>
+                        :disabled="selectedSpot.lat === null"
+                        >Find Trails</v-btn
+                      >
                     </div>
                   </v-form>
                 </div>
@@ -70,7 +83,7 @@ export default {
   name: "TrailFinder",
   components: {
     HeaderNav,
-    ResultsList
+    ResultsList,
   },
 
   data() {
@@ -92,11 +105,17 @@ export default {
   },
 
   watch: {
-    maxDist: function(newMaxDist) {
+    maxDist: function (newMaxDist) {
       if (this.circle !== "") {
         this.drawCircle(newMaxDist);
       }
-    }
+	},
+	selectedSpot: {
+		handler(newSpot) {
+			this.updateMap();
+		},
+		deep: true
+	}
   },
   methods: {
     milesToKm(val) {
@@ -110,13 +129,13 @@ export default {
             key: "200595378-7fe084d4861bcc0f6116d5babbf74a73",
             lat: this.selectedSpot.lat,
             lon: this.selectedSpot.lon,
-            maxDistance: this.maxDist
-          }
+            maxDistance: this.maxDist,
+          },
         })
-        .then(response => {
+        .then((response) => {
           this.trailList = response.data.trails;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert("Error in retrieving data:" + error);
         });
     },
@@ -126,9 +145,29 @@ export default {
         this.mymap.removeLayer(this.circle);
       }
       this.circle = L.circle([this.selectedSpot.lat, this.selectedSpot.lon], {
-        radius: this.milesToKm(this.maxDist) * 1000
+        radius: this.milesToKm(this.maxDist) * 1000,
       }).addTo(this.mymap);
-    }
+    },
+
+    updateMap() {
+	  const currentZoom = this.mymap.getZoom();
+	  this.mymap.setView(
+        [this.selectedSpot.lat, this.selectedSpot.lon],
+        currentZoom
+      );
+
+      if (this.marker !== "") {
+        this.mymap.removeLayer(this.marker);
+      }
+      if (this.circle !== "") {
+        this.mymap.removeLayer(this.circle);
+      }
+      this.marker = L.marker([
+        this.selectedSpot.lat,
+        this.selectedSpot.lon,
+      ]).addTo(this.mymap);
+      this.drawCircle(this.maxDist);
+    },
   },
 
   created() {
@@ -138,6 +177,11 @@ export default {
     if (this.$store.state.storedSpot.lat && this.$store.state.storedSpot.lon) {
       this.selectedSpot.lat = this.$store.state.storedSpot.lat;
       this.selectedSpot.lon = this.$store.state.storedSpot.lon;
+    } else {
+      window.navigator.geolocation.getCurrentPosition((position) => {
+        this.selectedSpot.lat = position.coords.latitude;
+        this.selectedSpot.lon = position.coords.longitude;
+      });
     }
     if (this.$store.state.storedMaxDist !== 0) {
       this.maxDist = this.$store.state.storedMaxDist;
@@ -147,30 +191,25 @@ export default {
   mounted() {
     this.mymap = L.map("mapid").setView(
       [this.selectedSpot.lat, this.selectedSpot.lon],
-      9
+      8
     );
-	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-	    maxZoom: 18,
-	    id: 'mapbox/streets-v11',
-	    tileSize: 512,
-	    zoomOffset: -1,
-	    accessToken: 'pk.eyJ1IjoicGludGVjMTAiLCJhIjoiY2sxNjdobDh6MHp5aDNvdGdubWYxdWwxOCJ9.JjH40Kq67-JXH8ySTIEtGw'
-	}).addTo(this.mymap);
+    L.tileLayer(
+      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: "mapbox/streets-v11",
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken:
+          "pk.eyJ1IjoicGludGVjMTAiLCJhIjoiY2sxNjdobDh6MHp5aDNvdGdubWYxdWwxOCJ9.JjH40Kq67-JXH8ySTIEtGw",
+      }
+    ).addTo(this.mymap);
+	
+	this.updateMap();
 
-    if (this.marker !== "") {
-      this.mymap.removeLayer(this.marker);
-    }
-    if (this.circle !== "") {
-      this.mymap.removeLayer(this.circle);
-    }
-    this.marker = L.marker([
-      this.selectedSpot.lat,
-      this.selectedSpot.lon
-    ]).addTo(this.mymap);
-    this.drawCircle(this.maxDist);
-
-    this.mymap.on("click", event => {
+    this.mymap.on("click", (event) => {
       if (this.marker !== "") {
         this.mymap.removeLayer(this.marker);
       }

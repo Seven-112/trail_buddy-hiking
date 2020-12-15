@@ -26,7 +26,6 @@ new Vue({
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    //firebase.analytics(); npm;
 
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -35,15 +34,5 @@ new Vue({
         store.commit("logout");
       }
     });
-
-    /*this.$router.beforeEach((to, from, next) => {
-      console.log("guard triggered");
-      console.log(to.path);
-      if (to.path === "/private" && !this.$store.state.logged) {
-        console.log("navigation blocked");
-        //next(false);
-        next()
-      } else next();
-    })*/
   }
 }).$mount('#app')

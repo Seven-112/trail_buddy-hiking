@@ -71,7 +71,7 @@ export default {
           this.$router.push("/");
         })
         .catch(function(error) {
-          console.log("There was an error: " + error);
+		  alert("There was an error during logout: " + error);
         });
     }
   },

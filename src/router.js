@@ -39,33 +39,7 @@ export default new Router({
     },
     {
       path: '/private',
-      component: Private/*,
-      beforeEnter(to, from, next) {
-        console.log("beforeEnter triggered");
-        next();
-    }*/
+      component: Private
     }
   ]
 })
-
-
-
-/*
-router.beforeEach((to, from, next) => {
-  console.log("guard triggered");
-});*/
-
-/*
-router.beforeEach((to, from, next)) => {
-  console.log("guard triggered");
-  if (to.path = "/private") {
-    console.log("specific private guard triggered");
-    //console.log("navigaton allowed");
-    next();
-  }
-  if (to.path = "/private" && !this.$store.state.logged) {
-    console.log("navigation blocked");
-    next(false);
-  }
-}
-*/

@@ -134,7 +134,6 @@ export default {
     },
 
     cancelUserParticipation() {
-      console.log("cancelling");
       firebase
         .database()
         .ref(
@@ -201,10 +200,8 @@ export default {
   computed: {
     loggedUserID() {
       if (firebase.auth().currentUser) {
-        console.log("loggedIN");
         return firebase.auth().currentUser.uid;
       } else {
-        console.log("No user logged");
         return null;
       }
     },

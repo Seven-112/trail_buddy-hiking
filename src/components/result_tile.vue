@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import firebase from "firebase"; // A VER!!!!!!
+import firebase from "firebase";
 export default {
   name: "ResultTile",
 
